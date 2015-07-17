@@ -1,6 +1,7 @@
 Fan
 FixedResistanceDpM
 FlowSplitter_u
+HeatExchanger_AirAir_ConstantEffectiveness
 HeaterCooler_T
 HeaterCooler_u
 Humidifier_u

@@ -40,7 +40,7 @@ partial block TwoPort
                    extent={{-100,-100},{100,100}}), graphics),
     Documentation(info="<html>
 <p>
-Partial model that can be used to export thermofluid flow models as an FMU.
+Partial model that can be used to export thermofluid flow models with two ports as an FMU.
 This model only declares the inlet and outlet ports, the medium and
 whether flow reversal is allowed.
 </p>

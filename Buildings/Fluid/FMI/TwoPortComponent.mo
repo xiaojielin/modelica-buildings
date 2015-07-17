@@ -61,7 +61,8 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Documentation(info="<html>
 <p>
-Block that serves as a container to export a thermofluid flow component.
+Block that serves as a container to export a thermofluid flow component
+with two ports.
 This block contains a replaceable model <code>com</code> that needs to
 be redeclared to export any model that has as its base class
 <a href=\"modelica://Buildings.Fluid.Interfaces.PartialTwoPort\">

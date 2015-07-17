@@ -1,5 +1,7 @@
 UsersGuide
 FlowSplitter_u
+FourPort
+FourPortComponent
 InletAdaptor
 OutletAdaptor
 Sink_T

@@ -150,12 +150,15 @@ its class name ends with the string <code>Beta</code>.
    to <b style=\"color:blue\">existing</b> libraries:
    </p>
    <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
-   <tr><td colspan=\"2\"><b>xxx</b>
+   <tr><td colspan=\"2\"><b>Buildings.Fluid.FMI</b>
        </td>
    </tr>
-   <tr><td valign=\"top\">xxx
+   <tr><td valign=\"top\">Buildings.Fluid.FMI.FourPort<br/>
+                        Buildings.Fluid.FMI.FourPortComponent<br/>
+                        Buildings.Fluid.FMI.Examples.FMUs.HeatExchanger_AirAir_ConstantEffectiveness
        </td>
-       <td valign=\"top\">xxx.
+       <td valign=\"top\">Components to export FMUs with four fluid flow ports, and an example
+                        for an air to air heat and mass exchanger.
        </td> 
        </tr>
    </table>
