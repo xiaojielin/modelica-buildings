@@ -2,6 +2,7 @@ within Buildings.Fluid.FMI.Examples.FMUs;
 block Humidifier_u "FMU declaration for an ideal humidifier"
    extends Buildings.Fluid.FMI.TwoPortComponent(
      redeclare replaceable package Medium = Buildings.Media.Air,
+     allowFlowReversal=false,
      redeclare final Buildings.Fluid.MassExchangers.Humidifier_u com(
       final m_flow_nominal=m_flow_nominal,
       final dp_nominal=if use_p_in then dp_nominal else 0,

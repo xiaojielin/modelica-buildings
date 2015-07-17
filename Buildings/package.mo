@@ -155,10 +155,12 @@ its class name ends with the string <code>Beta</code>.
    </tr>
    <tr><td valign=\"top\">Buildings.Fluid.FMI.FourPort<br/>
                         Buildings.Fluid.FMI.FourPortComponent<br/>
-                        Buildings.Fluid.FMI.Examples.FMUs.HeatExchanger_AirAir_ConstantEffectiveness
+                        Buildings.Fluid.FMI.Examples.FMUs.HeatExchanger_AirAir_ConstantEffectiveness<br/>
+                        Buildings.Fluid.FMI.Examples.FMUs.HeatExchanger_WaterWater_ConstantEffectiveness
+
        </td>
-       <td valign=\"top\">Components to export FMUs with four fluid flow ports, and an example
-                        for an air to air heat and mass exchanger.
+       <td valign=\"top\">Components to export FMUs with four fluid flow ports, and a examples
+                        for heat and mass exchangers.
        </td> 
        </tr>
    </table>

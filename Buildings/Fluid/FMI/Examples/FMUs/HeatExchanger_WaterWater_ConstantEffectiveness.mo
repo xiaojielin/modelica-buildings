@@ -1,12 +1,12 @@
 within Buildings.Fluid.FMI.Examples.FMUs;
-block HeatExchanger_AirAir_ConstantEffectiveness
-  "FMU declaration for an air to air heat exchanger with constant heat and mass transfer effectiveness"
+block HeatExchanger_WaterWater_ConstantEffectiveness
+  "FMU declaration for a water to water heat exchanger with constant heat transfer effectiveness"
    extends Buildings.Fluid.FMI.FourPortComponent(
-     redeclare replaceable package Medium1 = Buildings.Media.Air,
-     redeclare replaceable package Medium2 = Buildings.Media.Air,
+     redeclare replaceable package Medium1 = Buildings.Media.Water,
+     redeclare replaceable package Medium2 = Buildings.Media.Water,
      allowFlowReversal1=false,
      allowFlowReversal2=false,
-     redeclare final Buildings.Fluid.MassExchangers.ConstantEffectiveness com(
+     redeclare final Buildings.Fluid.HeatExchangers.ConstantEffectiveness com(
       final m1_flow_nominal=m1_flow_nominal,
       final m2_flow_nominal=m2_flow_nominal,
       final dp1_nominal=if use_p1_in then dp1_nominal else 0,
@@ -15,14 +15,10 @@ block HeatExchanger_AirAir_ConstantEffectiveness
       final from_dp2=from_dp2,
       final linearizeFlowResistance1 = linearizeFlowResistance1,
       final linearizeFlowResistance2 = linearizeFlowResistance2,
-      final epsS=epsS,
-      final epsL=epsL,
+      final eps=eps,
       final show_T=false));
 
-  parameter Real epsS(min=0, max=1) = 0.8
-    "Sensible heat exchanger effectiveness";
-
-  parameter Real epsL(min=0, max=1) = 0.8 "Latent heat exchanger effectiveness";
+  parameter Real eps(min=0, max=1) = 0.8 "Heat exchanger effectiveness";
 
   parameter Modelica.SIunits.MassFlowRate m1_flow_nominal(min=0) = 0.1
     "Nominal mass flow rate of medium 1"
@@ -63,11 +59,11 @@ block HeatExchanger_AirAir_ConstantEffectiveness
             -100},{100,100}}), graphics),
   Documentation(info="<html>
 <p>
-This example demonstrates how to export an FMU with an air to air
-heat and mass exchanger with constant effectiveness.
+This example demonstrates how to export an FMU with a water to water
+heat exchanger with constant effectiveness.
 The FMU has an instance of
-<a href=\"modelica://Buildings.Fluid.MassExchangers.ConstantEffectiveness\">
-Buildings.Fluid.MassExchangers.ConstantEffectiveness</a>.
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.ConstantEffectiveness\">
+Buildings.Fluid.HeatExchangers.ConstantEffectiveness</a>.
 </p>
 </html>", revisions="<html>
 <ul>
@@ -77,9 +73,14 @@ First implementation.
 </li>
 </ul>
 </html>"),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/Examples/FMUs/HeatExchanger_AirAir_ConstantEffectiveness.mos"
+__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/Examples/FMUs/HeatExchanger_WaterWater_ConstantEffectiveness.mos"
         "Export FMU"),
-    Icon(graphics={
+    Icon(graphics={                      Rectangle(
+          extent={{-72,78},{68,-82}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
         Rectangle(
           extent={{-100,65},{101,55}},
           lineColor={0,0,255},
@@ -92,18 +93,8 @@ __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/
           pattern=LinePattern.None,
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-68,80},{70,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={85,170,255},
-          fillPattern=FillPattern.Solid),
         Text(
-          extent={{-60,4},{50,-56}},
+          extent={{-56,0},{54,-60}},
           lineColor={255,255,255},
-          textString="epsL=%epsL"),
-        Text(
-          extent={{-66,50},{44,-10}},
-          lineColor={255,255,255},
-          textString="epsS=%epsS")}));
-end HeatExchanger_AirAir_ConstantEffectiveness;
+          textString="eps=%eps")}));
+end HeatExchanger_WaterWater_ConstantEffectiveness;

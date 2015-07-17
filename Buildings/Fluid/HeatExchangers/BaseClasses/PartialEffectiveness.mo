@@ -3,8 +3,8 @@ partial model PartialEffectiveness
   "Partial model to implement heat exchangers based on effectiveness model"
   extends Fluid.Interfaces.StaticFourPortHeatMassExchanger(
     show_T=false,
-    final prescribedHeatFlowRate1=false,
-    final prescribedHeatFlowRate2=false);
+    final prescribedHeatFlowRate1=true,
+    final prescribedHeatFlowRate2=true);
 
   Medium1.Temperature T_in1 "Inlet temperature medium 1";
   Medium2.Temperature T_in2 "Inlet temperature medium 2";

@@ -1,0 +1,85 @@
+last-generated=2015-07-17
+statistics-fmu-dependencies=
+{
+  "Outputs": {
+    "outlet2.forward.T": [
+      "inlet1.m_flow", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.forward.T"
+    ], 
+    "outlet1.forward.T": [
+      "inlet1.m_flow", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.forward.T"
+    ], 
+    "outlet1.m_flow": [
+      "inlet1.m_flow"
+    ], 
+    "CPUtime": [], 
+    "outlet2.m_flow": [
+      "inlet2.m_flow"
+    ], 
+    "outlet2.p": [
+      "inlet2.m_flow", 
+      "inlet2.p"
+    ], 
+    "EventCounter": [], 
+    "outlet1.p": [
+      "inlet1.m_flow", 
+      "inlet1.p"
+    ]
+  }, 
+  "InitialUnknowns": {
+    "outlet2.forward.T": [
+      "inlet1.m_flow", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.forward.T", 
+      "eps"
+    ], 
+    "outlet1.forward.T": [
+      "inlet1.m_flow", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.forward.T", 
+      "eps"
+    ], 
+    "outlet1.m_flow": [
+      "inlet1.m_flow"
+    ], 
+    "CPUtime": [], 
+    "outlet2.m_flow": [
+      "inlet2.m_flow"
+    ], 
+    "outlet2.p": [
+      "inlet1.m_flow", 
+      "inlet1.p", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.p", 
+      "inlet2.forward.T", 
+      "com.h_outflow_a1_start", 
+      "com.h_outflow_b1_start", 
+      "com.h_outflow_a2_start", 
+      "com.h_outflow_b2_start", 
+      "eps"
+    ], 
+    "EventCounter": [], 
+    "outlet1.p": [
+      "inlet1.m_flow", 
+      "inlet1.p", 
+      "inlet1.forward.T", 
+      "inlet2.m_flow", 
+      "inlet2.p", 
+      "inlet2.forward.T", 
+      "com.h_outflow_a1_start", 
+      "com.h_outflow_b1_start", 
+      "com.h_outflow_a2_start", 
+      "com.h_outflow_b2_start", 
+      "eps"
+    ]
+  }, 
+  "Derivatives": {}
+}
