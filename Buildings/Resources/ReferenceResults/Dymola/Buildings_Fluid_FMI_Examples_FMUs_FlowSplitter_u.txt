@@ -1,4 +1,4 @@
-last-generated=2015-07-16
+last-generated=2015-07-17
 statistics-fmu-dependencies=
 {
   "Outputs": {
@@ -11,7 +11,9 @@ statistics-fmu-dependencies=
     "outlet[2].forward.T": [
       "inlet.forward.T"
     ], 
+    "CPUtime": [], 
     "inlet.backward.T": [], 
+    "EventCounter": [], 
     "outlet[1].forward.T": [
       "inlet.forward.T"
     ], 
@@ -40,7 +42,9 @@ statistics-fmu-dependencies=
     "outlet[2].forward.T": [
       "inlet.forward.T"
     ], 
+    "CPUtime": [], 
     "inlet.backward.T": [], 
+    "EventCounter": [], 
     "outlet[1].forward.T": [
       "inlet.forward.T"
     ], 
