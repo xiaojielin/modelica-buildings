@@ -40,9 +40,13 @@ Buildings.Fluid.FMI.Interfaces</a>.
 <h4>Typical use</h4>
 <p>
 Users who want to export a single thermofluid flow component, or a
-subsystem of thermofluid flow components, can use the block
+subsystem of thermofluid flow components, can use the blocks
 <a href=\"modelica://Buildings.Fluid.FMI.TwoPortComponent\">
-Buildings.Fluid.FMI.TwoPortComponent</a>.
+Buildings.Fluid.FMI.TwoPortComponent</a> for components with
+two fluid ports, and
+<a href=\"modelica://Buildings.Fluid.FMI.FourPortComponent\">
+Buildings.Fluid.FMI.FourPortComponent</a> for components with
+four fluid ports.
 </p>
 <p>
 The package
