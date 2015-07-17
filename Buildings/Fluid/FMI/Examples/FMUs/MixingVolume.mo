@@ -21,6 +21,7 @@ protected
     final m_flow_nominal=m_flow_nominal,
     final allowFlowReversal=allowFlowReversal,
     final V=V,
+    prescribedHeatFlowRate = true,
     nPorts=2,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) "Control volume"
