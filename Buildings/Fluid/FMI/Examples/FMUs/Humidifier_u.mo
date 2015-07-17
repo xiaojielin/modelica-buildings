@@ -12,8 +12,7 @@ block Humidifier_u "FMU declaration for an ideal humidifier"
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.01
     "Nominal mass flow rate";
-  parameter Modelica.SIunits.Pressure dp_nominal(displayUnit="Pa")=0
-    "Pressure";
+  parameter Modelica.SIunits.Pressure dp_nominal(displayUnit="Pa")=0 "Pressure";
 
   parameter Modelica.SIunits.Temperature T = 293.15
     "Temperature of water that is added to the fluid stream (used if use_T_in=false)";
