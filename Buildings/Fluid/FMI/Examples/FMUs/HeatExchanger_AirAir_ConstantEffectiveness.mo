@@ -78,49 +78,30 @@ First implementation.
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/FMI/Examples/FMUs/HeatExchanger_AirAir_ConstantEffectiveness.mos"
         "Export FMU"),
     Icon(graphics={
-        Polygon(
-          points={{22,-75},{52,-85},{22,-95},{22,-75}},
-          lineColor={255,255,255},
-          smooth=Smooth.None,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          visible=allowFlowReversal),
         Rectangle(
-          extent={{-68,60},{72,-60}},
+          extent={{-100,65},{101,55}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
-          fillColor={95,95,95},
+          fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{-101,6},{100,-4}},
+          extent={{-100,-55},{101,-65}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
-          fillColor={0,0,255},
+          fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{2,-4},{102,6}},
+          extent={{-68,80},{70,-80}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
-          fillColor={255,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-68,80},{72,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={95,95,95},
+          fillColor={85,170,255},
           fillPattern=FillPattern.Solid),
         Text(
-          extent={{-54,-12},{56,-72}},
+          extent={{-60,4},{50,-56}},
           lineColor={255,255,255},
-          textString="Q=%Q_flow_nominal"),
-        Rectangle(
-          extent={{-100,61},{-68,58}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,127},
-          fillPattern=FillPattern.Solid),
+          textString="epsL=%epsL"),
         Text(
-          extent={{-104,94},{-60,66}},
-          lineColor={0,0,255},
-          textString="u")}));
+          extent={{-66,50},{44,-10}},
+          lineColor={255,255,255},
+          textString="epsS=%epsS")}));
 end HeatExchanger_AirAir_ConstantEffectiveness;
