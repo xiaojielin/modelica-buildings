@@ -5,7 +5,9 @@ block Pump "FMU declaration for a pump"
      redeclare final Movers.FlowControlled_dp com(
       final m_flow_nominal=m_flow_nominal,
       final dynamicBalance=false,
-      final filteredSpeed=false));
+      final filteredSpeed=false,
+      addPowerToMedium=false,
+      motorCooledByFluid=false));
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.01
     "Nominal mass flow rate";
@@ -35,6 +37,10 @@ The FMU has an instance of
 <a href=\"modelica://Buildings.Fluid.FixedResistances.FlowMachine_dp\">
 Buildings.Fluid.FixedResistances.FlowMachine_dp</a>
 configured to use water as the medium.
+The pump is also configure to not dissipate its heat to the medium.
+This avoids that the outlet temperature depends on the control signal.
+In the current configuration, the outlet temperature is equal to the
+inlet temperature of the pump.
 </p>
 <p>
 See
