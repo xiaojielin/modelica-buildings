@@ -35,6 +35,7 @@ protected
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Buildings.Fluid.MixingVolumes.MixingVolume vol(
     nPorts=2,
+    prescribedHeatFlowRate = true,
     redeclare final package Medium = Medium,
     final m_flow_nominal=m_flow_nominal,
     final allowFlowReversal=allowFlowReversal,
