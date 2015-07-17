@@ -12,8 +12,7 @@ block HeaterCooler_u
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.01
     "Nominal mass flow rate";
-  parameter Modelica.SIunits.Pressure dp_nominal(displayUnit="Pa")=0
-    "Pressure";
+  parameter Modelica.SIunits.Pressure dp_nominal(displayUnit="Pa")=0 "Pressure";
   parameter Modelica.SIunits.HeatFlowRate Q_flow_nominal=100
     "Heat flow rate at u=1, positive for heating";
   Modelica.Blocks.Interfaces.RealInput u(min=0, max=1, unit="1")

@@ -1,5 +1,5 @@
 within Buildings.Fluid.FMI.Examples.FMUs;
-block Fan "FMU declaration for a fixed resistance"
+block Fan "FMU declaration for a fan"
    extends Buildings.Fluid.FMI.TwoPortComponent(
      redeclare replaceable package Medium =  Buildings.Media.Air,
      redeclare final Movers.FlowControlled_dp com(
@@ -33,7 +33,8 @@ equation
 This example demonstrates how to export an FMU with a fluid flow component.
 The FMU has an instance of
 <a href=\"modelica://Buildings.Fluid.FixedResistances.FlowMachine_dp\">
-Buildings.Fluid.FixedResistances.FlowMachine_dp</a>.
+Buildings.Fluid.FixedResistances.FlowMachine_dp</a>
+configured to use air as the medium.
 </p>
 <p>
 See
