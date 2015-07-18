@@ -2,6 +2,7 @@ Fan
 FixedResistanceDpM
 FlowSplitter_u
 HeatExchanger_AirAir_ConstantEffectiveness
+HeatExchanger_WaterWater_ConstantEffectiveness
 HeaterCooler_T
 HeaterCooler_u
 Humidifier_u
@@ -10,4 +11,3 @@ MixingVolume
 Pump
 ResistanceVolume
 TwoPortPassThrough
-HeatExchanger_WaterWater_ConstantEffectiveness
