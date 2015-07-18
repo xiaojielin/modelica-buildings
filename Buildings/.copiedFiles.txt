@@ -330,6 +330,7 @@ Buildings/Fluid/Interfaces/Examples/Humidifier_u.mo
 Buildings/Fluid/Interfaces/Examples/PrescribedOutletState.mo
 Buildings/Fluid/Interfaces/Examples/ReverseFlowHumidifier.mo
 Buildings/Fluid/Interfaces/Examples/ReverseFlowMassExchanger.mo
+Buildings/Fluid/Interfaces/Examples/StaticTwoPortConservationEquation.mo
 Buildings/Fluid/Interfaces/Examples/package.mo
 Buildings/Fluid/Interfaces/Examples/package.order
 Buildings/Fluid/Interfaces/FourPort.mo
@@ -622,7 +623,19 @@ Buildings/Resources/Images/Utilities/Math/Functions/SmoothExponentialXPower.png
 Buildings/Resources/Images/iea-ebc-logo-text.png
 Buildings/Resources/Images/iea-ebc-logo.pdf
 Buildings/Resources/Images/iea-ebc-logo.png
-Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_ResistanceVolumeFlowReversal.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Experimental_Benchmarks_AirFlow_Examples_MultipleFloorsVectors.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Experimental_Benchmarks_AirFlow_Examples_TwoFloors.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Experimental_Benchmarks_AirFlow_Examples_ZoneStepResponse.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example1v1.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example1v2.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example2.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example3.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example4.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example5.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example7.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Examples_Performance_Example8.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_Interfaces_Examples_StaticTwoPortConservationEquation.txt
+Buildings/Resources/ReferenceResults/Dymola/Buildings_Fluid_MixingVolumes_Examples_MixingVolumeZeroFlow.txt
 Buildings/Resources/Scripts/Dymola/Airflow/Multizone/BaseClasses/Examples/PowerLaw.mos
 Buildings/Resources/Scripts/Dymola/Airflow/Multizone/BaseClasses/Examples/PowerLawFixedM.mos
 Buildings/Resources/Scripts/Dymola/Airflow/Multizone/BaseClasses/Examples/WindPressureLowRise.mos
@@ -725,6 +738,8 @@ Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/Humidifier_u.mos
 Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/PrescribedOutletState.mos
 Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/ReverseFlowHumidifier.mos
 Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/ReverseFlowMassExchanger.mos
+Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/StaticTwoPortConservationEquation.mos
+Buildings/Resources/Scripts/Dymola/Fluid/Interfaces/Examples/StaticTwoPortConservationEquation.mos~
 Buildings/Resources/Scripts/Dymola/Fluid/MassExchangers/Examples/ConstantEffectiveness.mos
 Buildings/Resources/Scripts/Dymola/Fluid/MassExchangers/Examples/Humidifier_u.mos
 Buildings/Resources/Scripts/Dymola/Fluid/MixingVolumes/Examples/MixingVolume.mos
@@ -1033,5 +1048,6 @@ Buildings/Utilities/package.mo
 Buildings/Utilities/package.order
 Buildings/legal.html
 Buildings/package.order
+Buildings/plot.mos
 Buildings/simulator.log
 Buildings/unitTests.log
