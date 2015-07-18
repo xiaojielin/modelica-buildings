@@ -6,33 +6,23 @@ statistics-fmu-dependencies=
       "inlet1.m_flow", 
       "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w"
+      "inlet2.forward.X_w"
     ], 
     "outlet2.forward.X_w": [
       "inlet1.m_flow", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.X_w"
+      "inlet2.forward.X_w"
     ], 
     "outlet1.forward.T": [
       "inlet1.m_flow", 
       "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w"
+      "inlet2.forward.X_w"
     ], 
     "outlet1.m_flow": [
       "inlet1.m_flow"
@@ -40,63 +30,21 @@ statistics-fmu-dependencies=
     "outlet1.forward.X_w": [
       "inlet1.m_flow", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.X_w"
+      "inlet2.forward.X_w"
     ], 
     "outlet2.m_flow": [
       "inlet2.m_flow"
-    ], 
-    "EventCounter": [], 
-    "inlet2.backward.X_w": [
-      "inlet1.m_flow", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.X_w"
-    ], 
-    "CPUtime": [], 
-    "inlet2.backward.T": [
-      "inlet1.m_flow", 
-      "inlet1.forward.T", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w"
-    ], 
-    "inlet1.backward.T": [
-      "inlet1.m_flow", 
-      "inlet1.forward.T", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w"
-    ], 
-    "outlet1.p": [
-      "inlet1.m_flow", 
-      "inlet1.p"
     ], 
     "outlet2.p": [
       "inlet2.m_flow", 
       "inlet2.p"
     ], 
-    "inlet1.backward.X_w": [
+    "CPUtime": [], 
+    "EventCounter": [], 
+    "outlet1.p": [
       "inlet1.m_flow", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.X_w"
+      "inlet1.p"
     ]
   }, 
   "InitialUnknowns": {
@@ -104,36 +52,26 @@ statistics-fmu-dependencies=
       "inlet1.m_flow", 
       "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.T", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
       "epsS", 
       "epsL"
     ], 
     "outlet2.forward.X_w": [
       "inlet1.m_flow", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.X_w", 
       "epsL"
     ], 
     "outlet1.forward.T": [
       "inlet1.m_flow", 
       "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.T", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
       "epsS", 
       "epsL"
     ], 
@@ -143,87 +81,22 @@ statistics-fmu-dependencies=
     "outlet1.forward.X_w": [
       "inlet1.m_flow", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.X_w", 
       "epsL"
     ], 
     "outlet2.m_flow": [
       "inlet2.m_flow"
-    ], 
-    "EventCounter": [], 
-    "inlet2.backward.X_w": [
-      "inlet1.m_flow", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.X_w", 
-      "epsL"
-    ], 
-    "CPUtime": [], 
-    "inlet2.backward.T": [
-      "inlet1.m_flow", 
-      "inlet1.forward.T", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
-      "epsS", 
-      "epsL"
-    ], 
-    "inlet1.backward.T": [
-      "inlet1.m_flow", 
-      "inlet1.forward.T", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
-      "epsS", 
-      "epsL"
-    ], 
-    "outlet1.p": [
-      "inlet1.m_flow", 
-      "inlet1.p", 
-      "inlet1.forward.T", 
-      "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
-      "inlet2.m_flow", 
-      "inlet2.p", 
-      "inlet2.forward.T", 
-      "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
-      "com.h_outflow_a1_start", 
-      "com.h_outflow_b1_start", 
-      "com.h_outflow_a2_start", 
-      "com.h_outflow_b2_start", 
-      "epsS", 
-      "epsL"
     ], 
     "outlet2.p": [
       "inlet1.m_flow", 
       "inlet1.p", 
       "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.T", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
       "inlet2.p", 
       "inlet2.forward.T", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.T", 
-      "outlet2.backward.X_w", 
       "com.h_outflow_a1_start", 
       "com.h_outflow_b1_start", 
       "com.h_outflow_a2_start", 
@@ -231,13 +104,22 @@ statistics-fmu-dependencies=
       "epsS", 
       "epsL"
     ], 
-    "inlet1.backward.X_w": [
+    "CPUtime": [], 
+    "EventCounter": [], 
+    "outlet1.p": [
       "inlet1.m_flow", 
+      "inlet1.p", 
+      "inlet1.forward.T", 
       "inlet1.forward.X_w", 
-      "outlet1.backward.X_w", 
       "inlet2.m_flow", 
+      "inlet2.p", 
+      "inlet2.forward.T", 
       "inlet2.forward.X_w", 
-      "outlet2.backward.X_w", 
+      "com.h_outflow_a1_start", 
+      "com.h_outflow_b1_start", 
+      "com.h_outflow_a2_start", 
+      "com.h_outflow_b2_start", 
+      "epsS", 
       "epsL"
     ]
   }, 

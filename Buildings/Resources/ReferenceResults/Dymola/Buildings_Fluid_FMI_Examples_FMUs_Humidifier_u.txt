@@ -6,18 +6,7 @@ statistics-fmu-dependencies=
       "inlet.m_flow"
     ], 
     "CPUtime": [], 
-    "inlet.backward.T": [
-      "inlet.m_flow", 
-      "outlet.backward.T", 
-      "outlet.backward.X_w", 
-      "u"
-    ], 
     "EventCounter": [], 
-    "inlet.backward.X_w": [
-      "inlet.m_flow", 
-      "outlet.backward.X_w", 
-      "u"
-    ], 
     "outlet.forward.T": [
       "inlet.m_flow", 
       "inlet.forward.T", 
@@ -38,21 +27,7 @@ statistics-fmu-dependencies=
       "inlet.m_flow"
     ], 
     "CPUtime": [], 
-    "inlet.backward.T": [
-      "inlet.m_flow", 
-      "outlet.backward.T", 
-      "outlet.backward.X_w", 
-      "T", 
-      "mWat_flow_nominal", 
-      "u"
-    ], 
     "EventCounter": [], 
-    "inlet.backward.X_w": [
-      "inlet.m_flow", 
-      "outlet.backward.X_w", 
-      "mWat_flow_nominal", 
-      "u"
-    ], 
     "outlet.forward.T": [
       "inlet.m_flow", 
       "inlet.forward.T", 
