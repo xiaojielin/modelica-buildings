@@ -24,9 +24,9 @@ model FixedResistanceDpM
         m_flow_nominal_pos / sqrt(dp_nominal_pos) else 0
     "Flow coefficient, k=m_flow/sqrt(dp), with unit=(kg.m)^(1/2)";
 protected
-  final parameter Boolean computeFlowResistance=(dp_nominal_pos > Modelica.Constants.eps)
+  final parameter Boolean computeFlowResistance=true
     "Flag to enable/disable computation of flow resistance"
-   annotation(Evaluate=true);
+   annotation(Evaluate=true);                        //(dp_nominal_pos > Modelica.Constants.eps)
 initial equation
  if computeFlowResistance then
    assert(m_flow_turbulent > 0, "m_flow_turbulent must be bigger than zero.");

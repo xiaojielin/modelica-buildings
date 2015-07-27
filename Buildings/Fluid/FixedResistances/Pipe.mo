@@ -1,9 +1,10 @@
 within Buildings.Fluid.FixedResistances;
 model Pipe "Pipe with finite volume discretization along flow path"
   extends Buildings.Fluid.FixedResistances.BaseClasses.Pipe(
-   diameter=sqrt(4*m_flow_nominal/rho_default/v_nominal/Modelica.Constants.pi),
-   dp_nominal=2*dpStraightPipe_nominal,
-   preDro(dp(nominal=length*10)));
+   diameter=1,
+   dp_nominal=2*dpStraightPipe_nominal);
+               /* fixme diameter=sqrt(4*m_flow_nominal/rho_default/v_nominal/Modelica.Constants.pi),*/
+
   // Because dp_nominal is a non-literal value, we set
   // dp.nominal=100 instead of the default dp.nominal=dp_nominal,
   // because the latter is ignored by Dymola 2012 FD 01.

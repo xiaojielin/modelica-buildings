@@ -2,8 +2,7 @@ within Buildings.Fluid.BaseClasses;
 partial model PartialResistance "Partial model for a hydraulic resistance"
     extends Buildings.Fluid.Interfaces.PartialTwoPortInterface(
      show_T=false,
-     dp(start=0, nominal=dp_nominal_pos),
-     m_flow(nominal=m_flow_nominal_pos),
+     dp(start=0),
      final m_flow_small = 1E-4*abs(m_flow_nominal));
 
   parameter Boolean from_dp = false

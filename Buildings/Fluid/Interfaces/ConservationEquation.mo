@@ -92,7 +92,7 @@ protected
 
   // Parameter for avoiding extra overhead calculations when CSen==0
   final parameter Boolean computeCSen = CSen > Modelica.Constants.eps
-    annotation(Evaluate=true);
+    annotation(Evaluate=false);
   final parameter Medium.ThermodynamicState state_default = Medium.setState_pTX(
       T=Medium.T_default,
       p=Medium.p_default,

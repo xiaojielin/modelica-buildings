@@ -6,7 +6,8 @@ model Pipe
   showDesignFlowDirection = false,
   final show_T=true);
   extends Buildings.Fluid.Interfaces.TwoPortFlowResistanceParameters(
-    final computeFlowResistance=(abs(dp_nominal) > Modelica.Constants.eps));
+    final computeFlowResistance=true);
+                                     /*(abs(dp_nominal) > Modelica.Constants.eps)*/
 
   parameter Integer nSeg(min=1) = 10 "Number of volume segments";
   parameter Modelica.SIunits.Length thicknessIns "Thickness of insulation";
@@ -57,6 +58,7 @@ model Pipe
 protected
   parameter Modelica.SIunits.Volume VPipe=Modelica.Constants.pi*(diameter/2.0)^
       2*length "Pipe volume";
+
   parameter Medium.ThermodynamicState state_default = Medium.setState_pTX(
       T=Medium.T_default,
       p=Medium.p_default,
