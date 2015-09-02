@@ -55,6 +55,7 @@ protected
     "Coefficients for polynomial of power vs. flow rate";
 
   Modelica.SIunits.Density rho=rho_in "Medium density";
+  Real fixme "Approximate value of r_N";
 equation
 //  etaHyd = cha.efficiency(per=per.hydraulicEfficiency, V_flow=VMachine_flow, d=hydDer, r_N=1, delta=1E-4);
 //  etaMot = cha.efficiency(per=per.motorEfficiency,     V_flow=VMachine_flow, d=motDer, r_N=1, delta=1E-4);
@@ -71,11 +72,11 @@ equation
     // For the homotopy, we want P/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
     // temperature near zero flow.
     if homotopyInitialization then
-      P = homotopy(actual=cha.power(per=per.power, V_flow=VMachine_flow, r_N=r_V, d=powDer, delta=1E-4),
+      P = homotopy(actual=cha.power(per=per.power, V_flow=VMachine_flow, r_N=fixme, d=powDer, delta=1E-4),
                       simplified=port_a.m_flow/m_flow_nominal*
                             cha.power(per=per.power, V_flow=m_flow_nominal/rho_default, r_N=1, d=powDer, delta=1E-4));
     else
-      P = (rho/rho_default)*cha.power(per=per.power, V_flow=VMachine_flow, r_N=r_V, d=powDer, delta=1E-4);
+      P = (rho/rho_default)*cha.power(per=per.power, V_flow=VMachine_flow, r_N=fixme, d=powDer, delta=1E-4);
     end if;
     // To compute the efficiency, we set a lower bound on the electricity consumption.
     // This is needed because WFlo can be close to zero when P is zero, thereby
@@ -91,13 +92,13 @@ equation
     etaHyd = 1;
   else
     if homotopyInitialization then
-      etaHyd = homotopy(actual=cha.efficiency(per=per.hydraulicEfficiency,     V_flow=VMachine_flow, d=hydDer, r_N=r_V, delta=1E-4),
-                        simplified=cha.efficiency(per=per.hydraulicEfficiency, V_flow=V_flow_max,   d=hydDer, r_N=r_V, delta=1E-4));
-      etaMot = homotopy(actual=cha.efficiency(per=per.motorEfficiency,     V_flow=VMachine_flow, d=motDer, r_N=r_V, delta=1E-4),
-                        simplified=cha.efficiency(per=per.motorEfficiency, V_flow=V_flow_max,   d=motDer, r_N=r_V, delta=1E-4));
+      etaHyd = homotopy(actual=cha.efficiency(per=per.hydraulicEfficiency,     V_flow=VMachine_flow, d=hydDer, r_N=fixme, delta=1E-4),
+                        simplified=cha.efficiency(per=per.hydraulicEfficiency, V_flow=V_flow_max,   d=hydDer, r_N=fixme, delta=1E-4));
+      etaMot = homotopy(actual=cha.efficiency(per=per.motorEfficiency,     V_flow=VMachine_flow, d=motDer, r_N=fixme, delta=1E-4),
+                        simplified=cha.efficiency(per=per.motorEfficiency, V_flow=V_flow_max,   d=motDer, r_N=fixme, delta=1E-4));
     else
-      etaHyd = cha.efficiency(per=per.hydraulicEfficiency, V_flow=VMachine_flow, d=hydDer, r_N=r_V, delta=1E-4);
-      etaMot = cha.efficiency(per=per.motorEfficiency,     V_flow=V_flow_max, d=motDer, r_N=r_V, delta=1E-4);
+      etaHyd = cha.efficiency(per=per.hydraulicEfficiency, V_flow=VMachine_flow, d=hydDer, r_N=fixme, delta=1E-4);
+      etaMot = cha.efficiency(per=per.motorEfficiency,     V_flow=VMachine_flow, d=motDer, r_N=fixme, delta=1E-4);
     end if;
     // To compute the electrical power, we set a lower bound for eta to avoid
     // a division by zero.
@@ -106,7 +107,7 @@ equation
   end if;
 
   r_V = VMachine_flow/V_flow_max;
-
+  fixme = r_V/0.71;
   dpMachine = -dp;
   VMachine_flow = port_a.m_flow/rho_in;
 
@@ -130,6 +131,9 @@ Previously, the value of this parameter was ignored.
 This is for
 <a href=\"modelica://https://github.com/lbl-srg/modelica-buildings/issues/457\">
 issue 457</a>.<br/>
+Corrected computation of
+<code>etaMot = cha.efficiency(per=per.motorEfficiency,     V_flow=VMachine_flow, d=motDer, r_N=fixme, delta=1E-4)</code>
+which previously used <code>V_flow_max</code> instead of <code>VMachine_flow</code>.<br/>
 Changed assignments of parameters of record <code>_perPow</code> to be <code>final</code>
 as we want users to change the performance record and not the low level declaration.
 </li>      
