@@ -107,7 +107,7 @@ equation
   end if;
 
   r_V = VMachine_flow/V_flow_max;
-  fixme = r_V/0.71;
+  fixme = 1;// r_V/0.71;
   dpMachine = -dp;
   VMachine_flow = port_a.m_flow/rho_in;
 
