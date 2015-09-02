@@ -166,7 +166,7 @@ protected
                                                                                      strict=false))
    else
      zeros(size(_per_y.power.V_flow,1))
-    "Coefficients for polynomial of pressure vs. flow rate";
+    "Coefficients for polynomial of power vs. flow rate";
 
   parameter Boolean haveMinimumDecrease=
     Modelica.Math.BooleanVectors.allTrue({(_per_y.pressure.dp[i + 1] -
@@ -538,6 +538,7 @@ equation
      // end of computation for this branch
   end if;
   // Power consumption
+  // This is the same compuation as in FlowControlled.
   if _per_y.use_powerCharacteristic then
     // For the homotopy, we want P/V_flow to be bounded as V_flow -> 0 to avoid a very high medium
     // temperature near zero flow.
@@ -554,7 +555,7 @@ equation
     // Earlier versions of the model computed WFlo = eta * P, but this caused
     // a division by zero.
     eta = WFlo / Buildings.Utilities.Math.Functions.smoothMax(x1=P, x2=1E-5, deltaX=1E-6);
-    // In this configuration, we only now the total power consumption.
+    // In this configuration, we only know the total power consumption.
     // Because nothing is known about etaMot versus etaHyd, we set etaHyd=1. This will
     // cause etaMot=eta, because eta=etaHyd*etaMot.
     // Earlier versions used etaMot=sqrt(eta), but as eta->0, this function has
