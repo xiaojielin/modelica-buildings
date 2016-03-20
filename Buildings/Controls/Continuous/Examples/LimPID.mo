@@ -26,7 +26,7 @@ model LimPID "Test model for PID controller with optional reverse action"
     annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
   Modelica.Blocks.Math.Gain gain(k=-1)
     annotation (Placement(transformation(extent={{20,-20},{40,0}})));
-  Buildings.Utilities.Diagnostics.AssertEquality assertEquality(threShold=1e-10)
+  Buildings.Utilities.Diagnostics.AssertEquality assertEquality(threShold=1e-4)
     annotation (Placement(transformation(extent={{60,20},{80,40}})));
   Modelica.Blocks.Continuous.LimPID limPIDOri(
     controllerType=Modelica.Blocks.Types.SimpleController.PID,
@@ -36,8 +36,7 @@ model LimPID "Test model for PID controller with optional reverse action"
     yMin=-1,
     initType=Modelica.Blocks.Types.InitPID.InitialState)
           annotation (Placement(transformation(extent={{-20,70},{0,90}})));
-  Buildings.Utilities.Diagnostics.AssertEquality assertEquality1(
-                                                                threShold=1e-10)
+  Buildings.Utilities.Diagnostics.AssertEquality assertEquality1(threShold=1e-4)
     annotation (Placement(transformation(extent={{60,60},{80,80}})));
 equation
   connect(pulse.y, limPID.u_s) annotation (Line(
