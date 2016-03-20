@@ -258,14 +258,6 @@ its class name ends with the string <code>Beta</code>.
    <b style=\"color:blue\">backward compatible</b> way:
    </p>
    <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
-   <tr><td colspan=\"2\"><b>xxx</b>
-       </td>
-   </tr>
-   <tr><td valign=\"top\">xxx
-       </td>
-       <td valign=\"top\">xxx
-       </td>
-   </tr>
    <tr><td colspan=\"2\"><b>Buildings.Fluid</b>
        </td>
    </tr>
@@ -720,31 +712,14 @@ its class name ends with the string <code>Beta</code>.
        <td valign=\"top\">Updated Python implementation to allow compiling code
                           on 64 bit Linux. Previously, on Linux a segmentation fault
                           occurred during run-time if 64 bit code rather than
-                          32 bit code was generated. This is now corrected.
+                          32 bit code was generated. This is now corrected.<br/>
+                          Also, Windows 64 bit binaries have been added.<br/>
                           This closes
                           <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/287\">issue 287</a>.
        </td>
    </tr>
 
-   <tr><td colspan=\"2\"><b>xxx</b>
-       </td>
-   </tr>
-   <tr><td valign=\"top\">xxx
-       </td>
-       <td valign=\"top\">xxx.
-       </td>
-   </tr>
-
-
    </table>
-   <p>
-   Note:
-   </p>
-   <ul>
-   <li>
-   xxx
-   </li>
-   </ul>
    </html>"));
    end Version_3_0_0;
 
