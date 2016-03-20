@@ -5636,7 +5636,7 @@ version="3.0.0",
 versionDate="2015-07-13",
 dateModified = "2015-07-13",
 uses(Modelica(version="3.2.2"),
-     Modelica_StateGraph2(version="2.0.2")),
+     Modelica_StateGraph2(version="2.0.3")),
 conversion(
  from(version={"2.0.0", "2.1.0"},
       script="modelica://Buildings/Resources/Scripts/Dymola/ConvertBuildings_from_2.1_to_3.0.mos")),
