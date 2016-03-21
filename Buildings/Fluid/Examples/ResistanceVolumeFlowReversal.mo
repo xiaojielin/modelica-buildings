@@ -5,6 +5,9 @@ model ResistanceVolumeFlowReversal
 
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
   parameter Real m_flow_nominal=0.1 "Gain value multiplied with input signal";
+  parameter Boolean allowFlowReversal = false
+    "Set to true to allow flow reversal"
+    annotation(Evaluate=true);
   Buildings.Fluid.Sources.Boundary_pT bou(
     redeclare package Medium = Medium,
     nPorts=1) "Boundary for pressure boundary condition"
@@ -13,7 +16,7 @@ model ResistanceVolumeFlowReversal
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     filteredSpeed=false,
-    allowFlowReversal=allowFlowReversal.k,
+    allowFlowReversal=allowFlowReversal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nominalValuesDefineDefaultPressureCurve=true)
     "Pump model with unidirectional flow"
@@ -25,7 +28,7 @@ model ResistanceVolumeFlowReversal
     Q_flow_maxCool=0,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    allowFlowReversal=allowFlowReversal.k) "Heater"
+    allowFlowReversal=allowFlowReversal) "Heater"
     annotation (Placement(transformation(extent={{-40,-30},{-20,-10}})));
   Modelica.Blocks.Sources.Pulse pulse(period=1000) "Pulse input"
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
@@ -41,12 +44,12 @@ model ResistanceVolumeFlowReversal
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   Modelica.Blocks.Sources.Constant const(k=0.5) "Constant valve set point"
     annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
-  Modelica.Blocks.Sources.BooleanConstant allowFlowReversal(k=false)
+  Modelica.Blocks.Sources.BooleanConstant allowFlowReversalBlock(k=false)
     "Block for setting allowFlowReversal in components"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
   Buildings.Fluid.FixedResistances.FixedResistanceDpM[nRes.k] res(
     redeclare package Medium = Medium,
-    each allowFlowReversal=allowFlowReversal.k,
+    each allowFlowReversal=allowFlowReversal,
     each m_flow_nominal=m_flow_nominal,
     each dp_nominal=1000) "Fluid resistance for splitting flow"
     annotation (Placement(transformation(extent={{56,-30},{76,-10}})));

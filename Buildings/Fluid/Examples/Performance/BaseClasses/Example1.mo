@@ -4,7 +4,9 @@ partial model Example1 "Example 1 partial model"
 
   package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater;
   parameter Real m_flow_nominal=0.1 "Gain value multiplied with input signal";
-
+  parameter Boolean allowFlowReversal = true
+    "Set to true to allow flow reversal"
+    annotation(Evaluate=true);
   Buildings.Fluid.Sources.Boundary_pT bou(
     redeclare package Medium = Medium,
     nPorts=1) "Boundary for pressure boundary condition"
@@ -14,7 +16,7 @@ partial model Example1 "Example 1 partial model"
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     filteredSpeed=false,
-    allowFlowReversal=allowFlowReversal.k,
+    allowFlowReversal=allowFlowReversal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nominalValuesDefineDefaultPressureCurve=true)
     "Pump model with unidirectional flow"
@@ -26,7 +28,7 @@ partial model Example1 "Example 1 partial model"
     Q_flow_maxCool=0,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    allowFlowReversal=allowFlowReversal.k) "Heater"
+    allowFlowReversal=allowFlowReversal) "Heater"
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   Modelica.Blocks.Sources.Pulse pulse(period=1000) "Pulse input"
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
@@ -39,19 +41,19 @@ partial model Example1 "Example 1 partial model"
     l={0.002,0.002},
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     filteredOpening=false,
-    portFlowDirection_1=if allowFlowReversal.k then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Entering,
-    portFlowDirection_2=if allowFlowReversal.k then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Leaving,
-    portFlowDirection_3=if allowFlowReversal.k then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Entering)
+    portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Entering,
+    portFlowDirection_2=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Leaving,
+    portFlowDirection_3=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional else Modelica.Fluid.Types.PortFlowDirection.Entering)
     "Three way valve with constant input"
     annotation (Placement(transformation(extent={{10,20},{30,40}})));
   Modelica.Blocks.Sources.Constant const(k=0.5) "Constant valve set point"
     annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
-  Modelica.Blocks.Sources.BooleanConstant allowFlowReversal(k=true)
+  Modelica.Blocks.Sources.BooleanConstant allowFlowReversalCon(k=true)
     "Block for setting allowFlowReversal in components"
     annotation (Placement(transformation(extent={{-88,70},{-68,90}})));
   Buildings.Fluid.FixedResistances.FixedResistanceDpM[nRes.k] res(
     redeclare package Medium = Medium,
-    each allowFlowReversal=allowFlowReversal.k,
+    each allowFlowReversal=allowFlowReversal,
     each m_flow_nominal=m_flow_nominal,
     each dp_nominal=1000,
     each from_dp=from_dp.k) "Fluid resistance for splitting flow"

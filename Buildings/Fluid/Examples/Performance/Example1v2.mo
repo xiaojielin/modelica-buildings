@@ -6,7 +6,7 @@ model Example1v2 "Example 1 model with mixing volume"
   Fluid.Delays.DelayFirstOrder[nRes.k] vol(
     redeclare each package Medium = Medium,
     each m_flow_nominal=m_flow_nominal,
-    each allowFlowReversal=allowFlowReversal.k,
+    each allowFlowReversal=allowFlowReversal,
     each nPorts=2,
     each tau=tau,
     each energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)

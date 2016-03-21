@@ -1,7 +1,7 @@
 within Buildings.Fluid.Examples.Performance;
 model Example1v1 "Example 1 model without mixing volume"
   extends Buildings.Fluid.Examples.Performance.BaseClasses.Example1(
-      allowFlowReversal(k=false), from_dp(k=true));
+      allowFlowReversal= false, from_dp(k=true));
 
 equation
   for i in 1:nRes.k loop
