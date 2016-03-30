@@ -127,6 +127,122 @@ its class name ends with the string <code>Beta</code>.
   package ReleaseNotes "Release notes"
     extends Modelica.Icons.ReleaseNotes;
 
+   class Version_3_0_1 "Version 3.0.1"
+  extends Modelica.Icons.ReleaseNotes;
+    annotation (Documentation(info="<html>
+   <div class=\"release-summary\">
+   <p>
+   Version X.Y.Z is ... xxx
+   </p>
+   </div>
+   <!-- New libraries -->
+   <p>
+   The following <b style=\"color:blue\">new libraries</b> have been added:
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+       </tr>
+   </table>
+   <!-- New components for existing libraries -->
+   <p>
+   The following <b style=\"color:blue\">new components</b> have been added
+   to <b style=\"color:blue\">existing</b> libraries:
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+   <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+       </tr>
+   </table>
+   <!-- Backward compatible changes -->
+   <p>
+   The following <b style=\"color:blue\">existing components</b>
+   have been <b style=\"color:blue\">improved</b> in a
+   <b style=\"color:blue\">backward compatible</b> way:
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+   <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+   </tr>
+   <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+   </tr>
+   </table>
+   <!-- Non-backward compatible changes to existing components -->
+   <p>
+   The following <b style=\"color:blue\">existing components</b>
+   have been <b style=\"color:blue\">improved</b> in a
+   <b style=\"color:blue\">non-backward compatible</b> way:
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+    <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+   </tr>
+   </table>
+   <!-- Errors that have been fixed -->
+   <p>
+   The following <b style=\"color:red\">critical errors</b> have been fixed (i.e., errors
+   that can lead to wrong simulation results):
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+   <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+   </tr>
+   </table>
+   <!-- Uncritical errors -->
+   <p>
+   The following <b style=\"color:red\">uncritical errors</b> have been fixed (i.e., errors
+   that do <b style=\"color:red\">not</b> lead to wrong simulation results, e.g.,
+   units are wrong or errors in documentation):
+   </p>
+   <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=0 cellpadding=2 style=\"border-collapse:collapse;\">
+   <tr><td colspan=\"2\"><b>xxx</b>
+       </td>
+   </tr>
+   <tr><td valign=\"top\">xxx
+       </td>
+       <td valign=\"top\">xxx.
+       </td>
+   </tr>
+   </table>
+   <p>
+   Note:
+   </p>
+   <ul>
+   <li>
+   xxx
+   </li>
+   </ul>
+   </html>"));
+   end Version_3_0_1;
+
    class Version_3_0_0 "Version 3.0.0"
      extends Modelica.Icons.ReleaseNotes;
        annotation (Documentation(info="<html>
@@ -142,7 +258,7 @@ its class name ends with the string <code>Beta</code>.
      </li>
      <li>
        The models in <code>Buildings.Fluid.Movers</code> can now be configured to use
-       three different control input signals: a continuous signal (depending on the model either
+       three different control input signals: a continuous signal (depending on the model
        either normalized speed, speed in rpm, prescribed mass flow rate or prescribed head),
        discrete stages of these quantities, or on/off.
        The models also have been refactored to make their implementation clearer.
@@ -154,8 +270,8 @@ its class name ends with the string <code>Beta</code>.
        with an optional correction for the part load efficiency.
      </li>
      <li>
-       Various models, in particular in the package <code>Buildings.Electrical</code>
-       were reformulated to comply with the Modelica Language Definition.
+       Various models, in particular in the package <code>Buildings.Electrical</code>,
+       have been reformulated to comply with the Modelica Language Definition.
        All models comply with the pedantic Modelica check of Dymola.
      </li>
    </ul>
@@ -5121,7 +5237,10 @@ on the Buildings library.
 </p>
 <ul>
 <li>
-<a href=\"modelica://Buildings.UsersGuide.ReleaseNotes.Version_3_0_0\">Version 3.0.0</a> (xxx, 2015)
+<a href=\"modelica://Buildings.UsersGuide.ReleaseNotes.Version_3_0_1\">Version 3.0.1</a> (xxx, 2016)
+</li>
+<li>
+<a href=\"modelica://Buildings.UsersGuide.ReleaseNotes.Version_3_0_0\">Version 3.0.0</a> (March 29, 2016)
 </li>
 <li>
 <a href=\"modelica://Buildings.UsersGuide.ReleaseNotes.Version_2_1_0\">Version 2.1.0</a> (July 13, 2015)
@@ -5633,8 +5752,8 @@ end UsersGuide;
 annotation (
 preferredView="info",
 version="3.0.0",
-versionDate="2015-07-13",
-dateModified = "2015-07-13",
+versionDate="2016-03-29",
+dateModified="2016-03-29",
 uses(Modelica(version="3.2.2"),
      Modelica_StateGraph2(version="2.0.3")),
 conversion(
