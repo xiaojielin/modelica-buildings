@@ -10,8 +10,10 @@ model GetAbsolutePath "Test model to get the absolute path of a URI"
   final parameter Integer dummy = size(f, 1)
     "Dummy variable, used have a result needed for the unit tests";
 initial algorithm
+  Modelica.Utilities.Files.remove("GetAbsolutePath.log");
   for i in 1:size(f, 1) loop
     Modelica.Utilities.Streams.print("Absolute path = " + fAbs[i]);
+    Modelica.Utilities.Streams.print("Absolute path = " + fAbs[i], "GetAbsolutePath.log");
   end for;
 
   annotation (
