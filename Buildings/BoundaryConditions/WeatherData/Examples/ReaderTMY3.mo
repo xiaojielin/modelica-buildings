@@ -2,11 +2,11 @@ within Buildings.BoundaryConditions.WeatherData.Examples;
 model ReaderTMY3 "Test model for reading weather data"
   extends Modelica.Icons.Example;
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
-    filNam="modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos")
+    filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"))
     "Weather data reader"
     annotation (Placement(transformation(extent={{-20,40},{0,60}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDatInpCon(filNam=
-        "modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos",
+        Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
       HSou=Buildings.BoundaryConditions.Types.RadiationDataSource.Input_HGloHor_HDifHor)
     "Weather data reader with radiation data obtained from input connector"
     annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
@@ -17,7 +17,7 @@ model ReaderTMY3 "Test model for reading weather data"
 equation
   connect(HGloHor.y, weaDatInpCon.HGloHor_in)
                                          annotation (Line(
-      points={{-59,-10},{-28,-10},{-28,-58.6},{-21,-58.6}},
+      points={{-59,-10},{-28,-10},{-28,-63},{-21,-63}},
       color={0,0,127}));
   connect(HDifHor.y, weaDatInpCon.HDifHor_in)
                                          annotation (Line(
@@ -36,6 +36,13 @@ the diffuse horizontal solar radiation from its input connectors.
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 20, 2016, by Michael Wetter:<br/>
+Added call to <code>Modelica.Utilities.Files.loadResource</code> as the
+previously used function <code>getAbsolutePath</code> does not work in JModelica.
+This is for
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/506\">Buildings, issue 506</a>.
+</li>
 <li>
 June 25, 2010, by Wangda Zuo:<br/>
 First implementation.

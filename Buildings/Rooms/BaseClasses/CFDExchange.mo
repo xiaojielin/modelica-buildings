@@ -48,6 +48,8 @@ block CFDExchange "Block that exchanges data with the CFD code"
   output Real uWri[nWri] "Value to be sent to the CFD interface";
 
 protected
+  final parameter String cfdAbsFilNam = Modelica.Utilities.Files.loadResource(cfdFilNam)
+    "Absolute path name of the CFD file name";
   final parameter Integer nSen(min=0) = size(sensorName, 1)
     "Number of sensors that are connected to CFD output";
   final parameter Integer nPorts=size(portName, 1)
@@ -243,7 +245,7 @@ end if;
 
   // Send parameters to the CFD interface
   sendParameters(
-    cfdFilNam=Buildings.BoundaryConditions.WeatherData.BaseClasses.getAbsolutePath(cfdFilNam),
+    cfdFilNam=cfdAbsFilNam,
     name=surIde[:].name,
     A=surIde[:].A,
     til=surIde[:].til,
@@ -374,6 +376,14 @@ Buildings.Rooms.UsersGuide.CFD</a>.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 20, 2016, by Michael Wetter:<br/>
+Replaced call to <code>getAbsolutePath</code> with a call to
+<code>Modelica.Utilities.Files.loadResource</code> in the parameter assignment,
+as <code>getAbsolutePath</code> does not work in JModelica.
+This is for
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/506\">Buildings, issue 506</a>.
+</li>
 <li>
 September 28, 2015, by Michael Wetter:<br/>
 Provided start value for all variables to avoid warning

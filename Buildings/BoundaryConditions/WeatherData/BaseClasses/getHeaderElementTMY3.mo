@@ -26,7 +26,7 @@ algorithm
   EOF :=false;
   while (not EOF) and (index == 0) loop
     iLin:=iLin + 1;
-    (lin, EOF) :=Modelica.Utilities.Streams.readLine(fileName=getAbsolutePath(filNam),
+    (lin, EOF) :=Modelica.Utilities.Streams.readLine(fileName=filNam,
       lineNumber=iLin);
     index :=Modelica.Utilities.Strings.find(
       string=lin,
@@ -69,6 +69,12 @@ When this line is found, the function returns the element at the position number
 A comma is used as the delimiter of the elements.
 </html>", revisions="<html>
 <ul>
+<li>
+April 20, 2016, by Michael Wetter:<br/>
+Removed call to <code>getAbsolutePath</code> as this does not work in JModelica.
+This is for
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/506\">Buildings, issue 506</a>.
+</li>
 <li>
 September 24, 2015, by Marcus Fuchs:<br/>
 Replace annotation <code>__Dymola_loadSelector</code> by <code>loadSelector</code>
