@@ -122,22 +122,34 @@ model ConservationEquation "Lumped volume with mass and energy balance"
     (mSenFac - 1)*rho_default*cp_default*fluidVolume
     "Aditional heat capacity for implementing mFactor";
 
-  // Normalized state variables
+  // Normalized state variables.
+  // These require setting stateSelect = StateSelect.default
+  // if the balance is steady-state. Otherwise, if this model
+  // is used for a steady-state balance (with two ports),
+  // h_outflow may be used as a state, and a division by
+  // zero can occur. This happened in Dymola 2017 FD01 on Linux for
+  // Buildings.Fluid.MixingVolumes.Validation.MixingVolumeHeatReverseFlow
+  // commit: 87794612b0bd4948dfc78a5bbbd75bf5bda08552
   Real m_norm(
     final unit="1",
-    stateSelect=StateSelect.prefer) = m * conM
+    stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+                then StateSelect.default else StateSelect.prefer) = m * conM
     "Normalized mass (auxiliary variable to have a normalized state variable)";
 
-  Real U_norm(stateSelect=StateSelect.prefer) = U * conU
+  Real U_norm(
+    stateSelect=if energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+                then StateSelect.default else StateSelect.prefer) = U * conU
     "Normalized internal energy of fluid (auxiliary variable to have a normalized state variable)";
 
   Real mXi_norm[Medium.nXi](
-    each stateSelect=StateSelect.prefer) = mXi .* conMXi
+    each stateSelect=if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+                     then StateSelect.default else StateSelect.prefer) = mXi .* conMXi
     "Normalized mass fraction of fluid (auxiliary variable to have a normalized state variable)";
 
   Real[Medium.nC] mC_norm(
     each final unit="1",
-    each stateSelect=StateSelect.prefer) = mC .* conMC
+    each stateSelect=if traceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+                     then StateSelect.default else StateSelect.prefer) = mC .* conMC
     "Normalized mass of trace substances in the fluid (auxiliary variable to have a normalized state variable)";
 
 
