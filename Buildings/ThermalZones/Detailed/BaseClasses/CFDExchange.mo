@@ -53,6 +53,18 @@ protected
   discrete Modelica.SIunits.Time modTimRea(fixed=false)
     "Current model time received from CFD";
 
+   Integer osVal "Operating system flag";
+   final String libPat = (if (osVal==0) then Modelica.Utilities.Files.loadResource(
+       "modelica://Buildings/Resources/Library/win64/ffd.dll")
+       elseif (osVal==1) then
+       Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/Library/win32/ffd.dll")
+       elseif (osVal==2) then
+       Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/Library/linux64/libffd.so")
+       elseif (osVal==3) then
+       Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/Library/linux32/libffd.so")
+       else "")
+       "Path to the FFD libraries";
+
   discrete Integer retVal(start=0, fixed=true) "Return value from CFD";
 
   ///////////////////////////////////////////////////////////////////////////
@@ -82,6 +94,8 @@ protected
       "Number of independent species concentration of the inflowing medium";
     input Integer nC "Number of trace substances of the inflowing medium";
     input Modelica.SIunits.Density rho_start "Density at initial state";
+    input String libPat "Path to the FFD libraries";
+
   protected
     Integer coSimFlag=0;
   algorithm
@@ -110,7 +124,8 @@ protected
         nConExtWin,
         nXi,
         nC,
-        rho_start);
+        rho_start,
+        libPat);
     assert(coSimFlag < 0.5, "Could not start the cosimulation.");
 
   end sendParameters;
@@ -199,6 +214,9 @@ protected
    annotation(Inline=true);
   end assertStringsAreUnique;
 
+algorithm
+    osVal := Buildings.ThermalZones.Detailed.BaseClasses.detectOperatingSystem();
+
 initial equation
   // Diagnostics output
   if verbose then
@@ -221,7 +239,7 @@ CFDExchange has the following sensors:");
       Modelica.Utilities.Streams.print(string="CFDExchange has no sensors.");
     end if;
 end if;
-
+//Modelica.Utilities.Streams.print(String(osVal));
   // Assert that the surface, sensor and ports have a name,
   // and that that name is unique.
   // Otherwise, stop with an error.
@@ -254,6 +272,7 @@ end if;
     nXi=nXi,
     nC=nC,
     rho_start=rho_start,
+    libPat=libPat,
     verbose=verbose);
 
   // Assignment of parameters and start values
@@ -371,6 +390,13 @@ Buildings.ThermalZones.Detailed.UsersGuide.CFD</a>.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 08, 2017, by Thierry S. Nouidui:<br/>
+Refactored the model to address JModelica simulation error
+which occurs when JModelica tries to import the FFD libraries.<br/>
+This is for
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/612\">issue 612</a>.
+</li>
 <li>
 November 17, 2016, by Michael Wetter:<br/>
 Removed public parameter <code>uStart</code>, which is not needed and

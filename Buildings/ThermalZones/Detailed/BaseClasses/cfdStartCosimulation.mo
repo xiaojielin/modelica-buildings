@@ -21,6 +21,7 @@ function cfdStartCosimulation "Start the coupled simulation with CFD"
   input Integer nXi(min=0) "Number of independent species";
   input Integer nC(min=0) "Number of trace substances";
   input Modelica.SIunits.Density rho_start "Density at initial state";
+  input String libPat "Path to the FFD libraries";
   output Integer retVal
     "Return value of the function (0 indicates CFD successfully started.)";
 external"C" retVal = cfdStartCosimulation(
@@ -39,14 +40,24 @@ external"C" retVal = cfdStartCosimulation(
     nConExtWin,
     nXi,
     nC,
-    rho_start) annotation (Include="#include <cfdStartCosimulation.c>",
+    rho_start,
+    libPat) annotation (Include="#include <cfdStartCosimulation.c>",
       IncludeDirectory="modelica://Buildings/Resources/C-Sources");
 
   annotation (Documentation(info="<html>
 <p>
-This function calls a C function to start the coupled simulation with CFD.</html>",
+This function calls a C function to start the coupled simulation with CFD.
+</p>
+</html>",
         revisions="<html>
 <ul>
+<li>
+February 08, 2017, by Thierry S. Nouidui:<br/>
+Added the path to the FFD libraries to address a JModelica simulation error
+which occurs when JModelica tries to import the FFD libraries.<br/>
+This is for
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/612\">issue 612</a>.
+</li>
 <li>
 August 16, 2013, by Wangda Zuo:<br/>
 First implementation.

@@ -7,7 +7,9 @@ external"C" cfdSendStopCommand() annotation (Include=
 
   annotation (Documentation(info="<html>
 <p>
-This function calls a C function to send a stop command to CFD to stop the CFD simulation.</html>",
+This function calls a C function to send a stop command to CFD to stop the CFD simulation.
+</p>
+</html>",
         revisions="<html>
 <ul>
 <li>

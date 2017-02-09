@@ -35,13 +35,16 @@
  * @param nXi Number of species
  * @param nC Number of trace substances
  * @param rho_start Density at initial state
+ * @param libPath Path to the FFD libraries.
  *
  * @return 0 if no error occurred
  */
 int cfdStartCosimulation(char *cfdFilNam, char **name, double *A, double *til,
                 int *bouCon, int nPorts, char** portName, int haveSensor,
                 char **sensorName, int haveShade, size_t nSur, size_t nSen,
-                size_t nConExtWin, size_t nXi, size_t nC, double rho_start) {
+                size_t nConExtWin, size_t nXi, size_t nC, double rho_start, 
+                char *libPath) {
+
   size_t i, nBou;
   /****************************************************************************
   | For call FFD-DLL
@@ -149,24 +152,11 @@ int cfdStartCosimulation(char *cfdFilNam, char **name, double *A, double *til,
  || defined(__CYGWIN__) || defined(__MINGW32__) \
  || defined(__BORLANDC__) /*Windows and MinGW */
 
-#if _WIN64
-  hinstLib = LoadLibrary(TEXT("Resources/Library/win64/ffd.dll"));
-#elif _WIN32
-  hinstLib = LoadLibrary(TEXT("Resources/Library/win32/ffd.dll"));
-#else
-  ModelicaError("Error: Failed to detect 32 or 64 bit Windows system in cfdStartCosimulation.c.\n");
-#endif
+hinstLib = LoadLibrary(TEXT(libPath))
 
 #elif __linux__ /*Linux*/
-#if UINTPTR_MAX == 0xffffffff
-/* 32-bit */
-  hinstLib = dlopen("Resources/Library/linux32/libffd.so", RTLD_LAZY);
-#elif UINTPTR_MAX == 0xffffffffffffffff
-/* 64-bit */
-  hinstLib = dlopen("Resources/Library/linux64/libffd.so", RTLD_LAZY);
-#else
-  ModelicaError("Error: Failed to detect 32 or 64 bit Linux system in cfdStartCosimulation.c.\n");
-#endif
+
+hinstLib = dlopen(libPath, RTLD_LAZY);
 
 #else /* Neither MSC nor Linux */
   ModelicaError("Error: Unsupported operating system in cfdStartCosimulation.c.\n");

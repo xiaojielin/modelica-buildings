@@ -7,7 +7,9 @@ external"C" retVal = cfdReceiveFeedback() annotation (Include=
         "modelica://Buildings/Resources/C-Sources");
   annotation (Documentation(info="<html>
 <p>
-This function calls a C function to receive the feedback from CFD about the status of performing a Stop command sent by Modelica.</html>",
+This function calls a C function to receive the feedback from CFD about the status of performing a Stop command sent by Modelica.
+</p>
+</html>",
         revisions="<html>
 <ul>
 <li>

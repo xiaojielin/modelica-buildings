@@ -21,7 +21,8 @@ external"C" retVal = cfdExchangeData(
         "modelica://Buildings/Resources/C-Sources");
   annotation (Documentation(info="<html>
 <p>
-This function calls a C function to conduct the data exchange between Modelica and CFD program during the coupled simulation.</p>
+This function calls a C function to conduct the data exchange between Modelica and CFD program during the coupled simulation.
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
