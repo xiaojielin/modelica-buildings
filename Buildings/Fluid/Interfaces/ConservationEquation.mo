@@ -133,11 +133,11 @@ model ConservationEquation "Lumped volume with mass and energy balance"
   // zero can occur. This happened in Dymola 2017 FD01 on Linux for
   // Buildings.Fluid.MixingVolumes.Validation.MixingVolumeHeatReverseFlow
   // commit: 87794612b0bd4948dfc78a5bbbd75bf5bda08552
-  Real m_norm(
-    final unit="1",
-    stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-                then StateSelect.default else StateSelect.prefer) = m * conM
-    "Normalized mass (auxiliary variable to have a normalized state variable)";
+//  Real m_norm(
+//    final unit="1",
+//    stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+//                then StateSelect.default else StateSelect.prefer) = m * conM
+//    "Normalized mass (auxiliary variable to have a normalized state variable)";
 
   Real U_norm(
     stateSelect=if energyDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
@@ -157,19 +157,23 @@ model ConservationEquation "Lumped volume with mass and energy balance"
 
 
 protected
-  parameter Real conM = 1/(fluidVolume*rho_default)
-    "Conversion factor to normalize the mass"
+  parameter Modelica.SIunits.Mass m_nominal = fluidVolume*rho_default
+    "Mass at initial conditions"
     annotation(Evaluate=true);
 
-  parameter Real conMXi = conM * 100
+  Modelica.SIunits.Mass delM(stateSelect=
+    if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+       then StateSelect.default else StateSelect.prefer)
+    "Difference is mass compared to initial mass m_nominal";
+  parameter Real conMXi = 100/m_nominal
     "Conversion factor to normalize the mass fraction (which usually is around 0.01, hence the factor 100)"
     annotation(Evaluate=true);
 
-  parameter Real conU = conM/(mSenFac*cp_default)/20
+  parameter Real conU = 1/(mSenFac*cp_default)/20/m_nominal
     "Conversion factor to normalize state for internal energy"
     annotation(Evaluate=true);
 
-  parameter Real conMC[Medium.nC] = conM ./ C_nominal
+  parameter Real conMC[Medium.nC] = (1/m_nominal) ./ C_nominal
     "Conversion factor to normalize state for trace substances"
     annotation(Evaluate=true);
 
@@ -280,6 +284,7 @@ equation
   end if;
 
   // Total quantities
+  m = m_nominal + delM;
   if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
     m = fluidVolume*rho_start;
   else
@@ -344,7 +349,7 @@ equation
   if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
     0 = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
   else
-    der(m) = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
+    der(delM) = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
   end if;
 
   if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
