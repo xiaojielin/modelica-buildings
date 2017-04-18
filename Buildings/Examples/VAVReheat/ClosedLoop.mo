@@ -50,7 +50,7 @@ model ClosedLoop
     T_a1_nominal=281.65,
     T_a2_nominal=323.15) "Heating coil"
     annotation (Placement(transformation(extent={{98,-56},{118,-36}})));
-  Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
+  Buildings.Fluid.HeatExchangers.WetEffectivenessNTU cooCoi(
     UA_nominal=m_flow_nominal*1000*15/
         Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
         T_a1=26.2,
@@ -62,8 +62,7 @@ model ClosedLoop
     m1_flow_nominal=m_flow_nominal*1000*15/4200/10,
     m2_flow_nominal=m_flow_nominal,
     dp2_nominal=0,
-    dp1_nominal=0,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Cooling coil"
+    dp1_nominal=0) "Cooling coil"
     annotation (Placement(transformation(extent={{210,-36},{190,-56}})));
   Buildings.Fluid.FixedResistances.PressureDrop dpSupDuc(
     m_flow_nominal=m_flow_nominal,
@@ -1014,6 +1013,11 @@ shading devices, Technical Report, Oct. 17, 2006.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 18, 2017, by Michael Wetter:<br/>
+Replaced cooling coil model with effectiveness model from
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/622\">#622</a>.
+</li>
 <li>
 May 19, 2016, by Michael Wetter:<br/>
 Changed chilled water supply temperature to <i>6&circ;C</i>.

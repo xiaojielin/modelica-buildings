@@ -81,7 +81,7 @@ model ClosedLoop "Closed loop model of a dual-fan dual-duct system"
     "Preheat coil"
     annotation (Placement(transformation(extent={{100,-56},{120,-36}})));
 
-  Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
+  Buildings.Fluid.HeatExchangers.WetEffectivenessNTU cooCoi(
     redeclare package Medium1 = MediumW,
     redeclare package Medium2 = MediumA,
     m1_flow_nominal=mWatCol_flow_nominal,
@@ -95,8 +95,7 @@ model ClosedLoop "Closed loop model of a dual-fan dual-duct system"
     dp2_nominal=0,
     from_dp2=from_dp,
     linearizeFlowResistance2=linearizeFlowResistance,
-    dp1_nominal=0,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Cooling coil"
+    dp1_nominal=0) "Cooling coil"
     annotation (Placement(transformation(extent={{372,-146},{352,-166}})));
   Buildings.Fluid.Movers.SpeedControlled_y fanSupHot(
     redeclare package Medium = MediumA,
@@ -1202,6 +1201,11 @@ shading devices, Technical Report, Oct. 17, 2006.
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 18, 2017, by Michael Wetter:<br/>
+Replaced cooling coil model with effectiveness model from
+<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/622\">#622</a>.
+</li>
 <li>
 May 19, 2016, by Michael Wetter:<br/>
 Set <code>use_inputFilter=false</code> in fan models to avoid a large
