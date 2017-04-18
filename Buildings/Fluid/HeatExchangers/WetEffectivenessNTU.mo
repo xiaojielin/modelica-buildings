@@ -405,24 +405,6 @@ equation
           fillColor={95,95,95},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{36,80},{40,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-40,80},{-36,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-2,80},{2,-80}},
-          lineColor={0,0,255},
-          pattern=LinePattern.None,
-          fillColor={0,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
           extent={{-100,-55},{101,-65}},
           lineColor={0,0,255},
           pattern=LinePattern.None,
@@ -433,7 +415,46 @@ equation
           lineColor={0,0,255},
           pattern=LinePattern.None,
           fillColor={0,0,255},
-          fillPattern=FillPattern.Solid)}),
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{46,-62},{44,-72},{50,-76},{58,-72},{56,-62},{50,-50},{46,-62}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier),
+        Polygon(
+          points={{24,-52},{22,-62},{28,-66},{36,-62},{34,-52},{28,-40},{24,-52}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier),
+        Polygon(
+          points={{0,-48},{-2,-58},{4,-62},{12,-58},{10,-48},{4,-36},{0,-48}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier),
+        Polygon(
+          points={{-18,-64},{-20,-74},{-14,-78},{-6,-74},{-8,-64},{-14,-52},{
+              -18,-64}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier),
+        Polygon(
+          points={{-40,-50},{-42,-60},{-36,-64},{-28,-60},{-30,-50},{-36,-38},{
+              -40,-50}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier),
+        Polygon(
+          points={{-58,-62},{-60,-72},{-54,-76},{-46,-72},{-48,-62},{-54,-50},{
+              -58,-62}},
+          lineColor={0,0,255},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          smooth=Smooth.Bezier)}),
         Diagram(graphics={Text(
           extent={{44,84},{86,76}},
           lineColor={28,108,200},
