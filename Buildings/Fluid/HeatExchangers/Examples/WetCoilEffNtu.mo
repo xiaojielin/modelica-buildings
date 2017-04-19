@@ -13,6 +13,13 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
   parameter Modelica.SIunits.Temperature TAirOut=
     Modelica.SIunits.Conversions.from_degF(53)
     "Outlet air temperature";
+  parameter Modelica.SIunits.Temperature TWatIn=
+    Modelica.SIunits.Conversions.from_degF(42)
+    "Inlet water temperature";
+  parameter Modelica.SIunits.Temperature TWatOut=
+    Modelica.SIunits.Conversions.from_degF(47.72)
+    "Outlet water temperature";
+
   parameter Modelica.SIunits.Pressure pAirIn = pAtm + 20
     "Inlet air pressure";
   parameter Modelica.SIunits.Pressure pAirOut = pAtm
