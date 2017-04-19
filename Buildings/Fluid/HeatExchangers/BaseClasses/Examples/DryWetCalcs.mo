@@ -63,33 +63,34 @@ model DryWetCalcs "Test the DryWetCalcs model"
     annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
 
 equation
-  connect(UAWatExp.y, dryWetCalcs.UAWat) annotation (Line(points={{-79,90},{-44,
-          90},{-44,55},{-36.4286,55}}, color={0,0,127}));
+  connect(UAWatExp.y, dryWetCalcs.UAWat) annotation (Line(points={{-79,90},{-60,
+          90},{-60,55},{-43.5714,55}}, color={0,0,127}));
   connect(mWat_flowExp.y, dryWetCalcs.mWat_flow) annotation (Line(points={{-79,70},
-          {-48,70},{-48,45},{-36.4286,45}}, color={0,0,127}));
-  connect(cpWatExp.y, dryWetCalcs.cpWat) annotation (Line(points={{-79,50},{-52,
-          50},{-52,35},{-36.4286,35}}, color={0,0,127}));
+          {-66,70},{-66,45},{-43.5714,45}}, color={0,0,127}));
+  connect(cpWatExp.y, dryWetCalcs.cpWat) annotation (Line(points={{-79,50},{-72,
+          50},{-72,36},{-72,35},{-43.5714,35}},
+                                       color={0,0,127}));
   connect(TWatInExp.y, dryWetCalcs.TWatIn) annotation (Line(points={{-79,30},{
-          -58,30},{-58,25},{-36.4286,25}},
+          -74,30},{-74,25},{-43.5714,25}},
                                        color={0,0,127}));
   connect(wAirInExp.y, dryWetCalcs.wAirIn) annotation (Line(points={{-79,10},{
-          -76,10},{-76,5},{-36.4286,5}},
+          -76,10},{-76,5},{-43.5714,5}},
                                      color={0,0,127}));
   connect(pAirExp.y, dryWetCalcs.pAir) annotation (Line(points={{-79,-10},{-74,
-          -10},{-74,-5},{-36.4286,-5}}, color={0,0,127}));
+          -10},{-74,-5},{-43.5714,-5}}, color={0,0,127}));
   connect(hAirInExp.y, dryWetCalcs.hAirIn) annotation (Line(points={{-79,-30},{
-          -70,-30},{-70,-15},{-36.4286,-15}},
+          -70,-30},{-70,-15},{-43.5714,-15}},
                                           color={0,0,127}));
   connect(TAirInExp.y, dryWetCalcs.TAirIn) annotation (Line(points={{-79,-50},{
-          -66,-50},{-66,-25},{-36.4286,-25}},
+          -66,-50},{-66,-25},{-43.5714,-25}},
                                           color={0,0,127}));
   connect(cpAirExp.y, dryWetCalcs.cpAir) annotation (Line(points={{-79,-70},{
-          -60,-70},{-60,-35},{-36.4286,-35}},
+          -60,-70},{-60,-35},{-43.5714,-35}},
                                           color={0,0,127}));
   connect(mAir_flowExp.y, dryWetCalcs.mAir_flow) annotation (Line(points={{-79,-90},
-          {-56,-90},{-56,-45},{-36.4286,-45}}, color={0,0,127}));
+          {-56,-90},{-56,-45},{-43.5714,-45}}, color={0,0,127}));
   connect(UAAirExp.y, dryWetCalcs.UAAir) annotation (Line(points={{-79,-110},{
-          -52,-110},{-52,-55},{-36.4286,-55}},
+          -52,-110},{-52,-55},{-43.5714,-55}},
                                            color={0,0,127}));
   annotation (
     experiment(StopTime=1.0),

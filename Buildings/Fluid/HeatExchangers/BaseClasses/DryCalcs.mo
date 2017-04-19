@@ -5,6 +5,8 @@ model DryCalcs
   // - water
   input Modelica.SIunits.ThermalConductance UAWat
     "UA for water side";
+  input Real fraHex(min=0, max=1)
+    "Fraction of heat exchanger to which UA is to be applied";
   input Modelica.SIunits.MassFlowRate mWat_flow
     "Mass flow rate for water";
   input Modelica.SIunits.SpecificHeatCapacity cpWat
@@ -43,12 +45,6 @@ model DryCalcs
     "maximum capacity rate";
   Real Z(unit="1")
     "capacitance rate ratio (C*)";
-  Modelica.SIunits.ThermalResistance resAir
-    "Thermal resistance on the air side including fins";
-  Modelica.SIunits.ThermalResistance resWat
-    "Thermal resistance on the water side including metal of coil";
-  Modelica.SIunits.ThermalResistance resTot
-    "Total resistance between air and water";
   Modelica.SIunits.ThermalConductance UA
     "Overall heat transfer coefficient";
   Real NTU
@@ -57,7 +53,7 @@ model DryCalcs
 equation
     // fixme: check condition
   if noEvent(mAir_flow < 1e-4 or mWat_flow < 1e-4
-    or UAAir < 1e-4 or UAWat < 1e-4) then
+    or fraHex < 1e-4) then
     // No mass flow so no heat transfer
     Q_flow = 0;
     TWatOut = TWatIn;
@@ -68,9 +64,6 @@ equation
     CMin_flow = 0;
     CMax_flow = 0;
     Z = 0;
-    resAir = 0;
-    resWat = 0;
-    resTot = 0;
     UA = 0;
     NTU = 0;
   else
@@ -78,12 +71,9 @@ equation
     CAir_flow = mAir_flow * cpAir;
     CMin_flow = min(CWat_flow, CAir_flow);
     CMax_flow = max(CWat_flow, CAir_flow);
-    resAir = 1 / UAAir;
-    resWat = 1 / UAWat;
-    resTot = resAir + resWat;
-    UA = 1/resTot "UA is for the overall coil (i.e., both sides)";
+    UA = 1/ (1 / UAAir + 1 / UAWat) "UA is for the overall coil (i.e., both sides)";
     Z = CMin_flow / CMax_flow "Braun 1988 eq 4.1.10";
-    NTU = UA/CMin_flow;
+    NTU = fraHex*UA/CMin_flow;
     eff = epsilon_ntuZ(
       Z = Z,
       NTU = NTU,

@@ -9,6 +9,8 @@ model WetCalcs "Wet effectiveness-NTU calculations"
   // - water
   input Modelica.SIunits.ThermalConductance UAWat
     "UA for water side";
+  input Real fraHex(min=0, max=1)
+    "Fraction of heat exchanger to which UA is to be applied";
   input Modelica.SIunits.MassFlowRate mWat_flow
     "Mass flow rate for water";
   input Modelica.SIunits.SpecificHeatCapacity cpWat
@@ -102,8 +104,8 @@ protected
 equation
     // fixme: check condition
   if noEvent(
-      mWat_flow < 1e-4 or mAir_flow < 1e-4 or UAAir < 1e-4
-      or UAWat < 1e-4 or (abs(TAirIn - TWatIn) < 1e-4)) then
+      mWat_flow < 1e-4 or mAir_flow < 1e-4 or fraHex < 1e-4
+      or (abs(TAirIn - TWatIn) < 1e-4)) then
     QTot_flow = 0;
     QSen_flow = 0;
     TWatOut = TWatIn;
@@ -147,7 +149,7 @@ equation
       "Braun et al 2013 eq 2.20";
     UASta = (UAAir / cpAir) / (1 + (cpEff*UAAir) / (cpAir*UAWat))
       "Mitchell 2012 eq 13.19";
-    NTUSta =  UASta/mAir_flow
+    NTUSta =  fraHex * UASta/mAir_flow
       "Mitchell 2012 eq 13.20";
     effSta = epsilon_ntuZ(
       Z = mSta,
@@ -156,7 +158,7 @@ equation
     QTot_flow = effSta * mAir_flow * (hAirSatSurIn - hAirIn);
     TWatOut = TWatIn - QTot_flow / (mWat_flow * cpWat);
     hAirOut = hAirIn + QTot_flow / mAir_flow;
-    NTUAirSta = UAAir / (mAir_flow * cpAir);
+    NTUAirSta = fraHex * UAAir / (mAir_flow * cpAir);
     hSurEff = hAirIn + (hAirOut - hAirIn) / (1 - exp(-NTUAirSta));
     // The effective surface temperature Ts,eff or TSurEff is the saturation
     // temperature at the value of an effective surface enthalpy, hs,eff or
