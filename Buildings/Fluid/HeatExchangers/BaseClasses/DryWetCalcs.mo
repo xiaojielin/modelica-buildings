@@ -227,29 +227,29 @@ model DryWetCalcs
     "Dry fraction of the coil; note: this is an iteration variable and is
     not always accurate; use dryFraFin for final determination of the region";
 
-  Medium2.Temperature TAirInDewPoi
+  Modelica.SIunits.Temperature TAirInDewPoi
     "Dew point temperature of incoming air";
-  Medium2.Temperature TDewPoiA
+  Modelica.SIunits.Temperature TDewPoiA
     "Dew point at the 100% Dry to partial wet/partial dry interface
     (i.e., exactly where dryFra becomes 1)";
-  Medium2.Temperature TDewPoiB
+  Modelica.SIunits.Temperature TDewPoiB
     "Dew point at the partial wet/partial dry to 100% wet interface
     (i.e., exactly where dryFra becomes 0)";
   // - 100% dry coil
   Modelica.SIunits.HeatFlowRate QSenDry_flow
     "Heat transferred water to air for a 100% dry coil";
-  Medium1.Temperature TWatOutDry
+  Modelica.SIunits.Temperature TWatOutDry
     "Water outlet temperature for a 100% dry coil";
-  Medium2.Temperature TAirOutDry
+  Modelica.SIunits.Temperature TAirOutDry
     "Water outlet temperature for a 100% dry coil";
   // - 100% wet coil
   Modelica.SIunits.HeatFlowRate QTotWet_flow
     "Heat transferred air to water for a 100% wet coil";
   Modelica.SIunits.HeatFlowRate QSenWet_flow
     "Heat transferred water to air for a 100% wet coil";
-  Medium1.Temperature TWatOutWet(start=TWatOut_init)
+  Modelica.SIunits.Temperature TWatOutWet(start=TWatOut_init)
     "Water outlet temperature for a 100% wet coil";
-  Medium2.Temperature TAirOutWet
+  Modelica.SIunits.Temperature TAirOutWet
     "Water outlet temperature for a 100% wet coil";
   Modelica.SIunits.MassFlowRate mCon_flowWet
     "Mass flow of condensate for a 100% wet coil; a positive number or zero";
@@ -257,13 +257,13 @@ model DryWetCalcs
   Modelica.SIunits.HeatFlowRate QParSenDry_flow
     "Sensible heat transferred from water to air for the dry part of
     a partially wet coil";
-  Medium1.Temperature TWatOutPar
+  Modelica.SIunits.Temperature TWatOutPar
     "Water outlet temperature";
-  Medium2.Temperature TWatX(start=TWatOut_init)
+  Modelica.SIunits.Temperature TWatX(start=TWatOut_init)
     "Water temperature at the wet/dry transition";
-  Medium2.Temperature TAirX
+  Modelica.SIunits.Temperature TAirX
     "Air temperature at the wet/dry transition";
-  Medium2.Temperature TAirOutPar
+  Modelica.SIunits.Temperature TAirOutPar
     "Air outlet temperature for a partially wet/dry coil";
   Modelica.SIunits.HeatFlowRate QParTotWet_flow
     "Total heat transferred from air to water for a partially wet coil";

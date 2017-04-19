@@ -13,9 +13,9 @@ model WetCalcs "Wet effectiveness-NTU calculations"
     "Mass flow rate for water";
   input Modelica.SIunits.SpecificHeatCapacity cpWat
     "Specific heat capacity of water";
-  input Medium1.Temperature TWatIn
+  input Modelica.SIunits.Temperature TWatIn
     "Water temperature at inlet";
-  input Medium1.Temperature TWatOutGuess
+  input Modelica.SIunits.Temperature TWatOutGuess
     "A guess variable for the outlet water temperature";
   // -- air
   input Modelica.SIunits.ThermalConductance UAAir
@@ -42,7 +42,7 @@ model WetCalcs "Wet effectiveness-NTU calculations"
     "Total heat flow from water to air stream";
   output Modelica.SIunits.HeatFlowRate QSen_flow
      "Sensible heat flow from water to air stream";
-  output Medium1.Temperature TWatOut
+  output Modelica.SIunits.Temperature TWatOut
     "Temperature of water at outlet";
   output Modelica.SIunits.Temperature TAirOut
     "Temperature of air at the outlet";

@@ -7,12 +7,6 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
 
   constant Modelica.SIunits.AbsolutePressure pAtm = 101325 "Atmospheric pressure";
 
-  parameter Modelica.SIunits.Temperature TWatIn=
-    Modelica.SIunits.Conversions.from_degF(42)
-    "Inlet water temperature";
-  parameter Modelica.SIunits.Temperature TWatOut=
-    Modelica.SIunits.Conversions.from_degF(47.72)
-    "Outlet water temperature";
   parameter Modelica.SIunits.Temperature TAirIn=
     Modelica.SIunits.Conversions.from_degF(80)
     "Inlet air temperature";
@@ -78,9 +72,7 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
     configuration=
     Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowStream1UnmixedStream2Mixed,
     show_T=true,
-    r_nominal=1,
-    T_a1_nominal = TWatIn,
-    T_a2_nominal = TAirIn)
+    r_nominal=1)
     "Heat exchanger coil"
     annotation (Placement(transformation(extent={{-24,-46},{8,-14}})));
   Buildings.Fluid.FixedResistances.PressureDrop watRes(
@@ -101,7 +93,7 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
   Modelica.SIunits.HeatFlowRate QTotAir = mAir_flow_nominal * (hAirOut - hAirIn)
     "Total heat tranferred to the air";
 
-  Modelica.SIunits.SpecificEnthalpy hAirIn =
+  Modelica.SIunits.SpecificEnthalpy hAirIn=
     Medium_W.specificEnthalpy(
       Medium_W.setState_phX(
         p=wetEffNtu.port_a2.p,
@@ -110,14 +102,14 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
           1 - actualStream(wetEffNtu.port_a2.Xi_outflow[1])}))
     "Specific enthalpy";
 
-  Modelica.SIunits.SpecificEnthalpy hWatIn =
+  Modelica.SIunits.SpecificEnthalpy hWatIn=
     Medium_W.specificEnthalpy(
       Medium_W.setState_ph(
         p=wetEffNtu.port_a1.p,
         h=actualStream(wetEffNtu.port_a1.h_outflow)))
     "Specific enthalpy";
 
-  Modelica.SIunits.SpecificEnthalpy hAirOut =
+  Modelica.SIunits.SpecificEnthalpy hAirOut=
     Medium_W.specificEnthalpy(
       Medium_W.setState_phX(
         p=wetEffNtu.port_b2.p,
@@ -126,7 +118,7 @@ model WetCoilEffNtu "Example of usage of the WetCoilEffNtu model"
            1 - actualStream(wetEffNtu.port_b2.Xi_outflow[1])}))
     "Specific enthalpy";
 
-  Modelica.SIunits.SpecificEnthalpy hWatOut =
+  Modelica.SIunits.SpecificEnthalpy hWatOut=
     Medium_W.specificEnthalpy(
       Medium_W.setState_ph(
         p=wetEffNtu.port_b1.p,

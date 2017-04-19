@@ -79,9 +79,7 @@ model WetCoilEffNtuReverseFlow
     configuration=
     Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowStream1UnmixedStream2Mixed,
     show_T=true,
-    r_nominal=1,
-    T_a1_nominal=TWatIn,
-    T_a2_nominal=TAirIn)
+    r_nominal=1)
     "Heat exchanger coil"
     annotation (Placement(transformation(extent={{-16,46},{16,78}})));
   FixedResistances.PressureDrop watRes(
@@ -138,9 +136,7 @@ model WetCoilEffNtuReverseFlow
     configuration=
     Buildings.Fluid.Types.HeatExchangerConfiguration.CrossFlowStream1UnmixedStream2Mixed,
     show_T=true,
-    r_nominal=1,
-    T_a1_nominal=TWatIn,
-    T_a2_nominal=TAirIn)
+    r_nominal=1)
     "Heat exchanger coil"
     annotation (Placement(transformation(extent={{16,-16},{-16,16}},
         rotation=0,

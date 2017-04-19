@@ -24,8 +24,6 @@ model WetCoilEffNtuMassFlow
         T_a2_nominal,
         T_b2_nominal),
     show_T=true,
-    T_a1_nominal = T_a1_nominal,
-    T_a2_nominal = T_a2_nominal,
     TWatOut_init=T_b1_nominal)
     "Heat exchanger"
     annotation (Placement(transformation(extent={{80,20},{100,40}})));

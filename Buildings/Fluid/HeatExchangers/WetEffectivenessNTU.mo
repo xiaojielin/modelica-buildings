@@ -20,12 +20,6 @@ model WetEffectivenessNTU
     Modelica.SIunits.Conversions.from_degF(42)
     "Guess value for the water outlet temperature which is an iteration variable"
     annotation (Dialog(group="Nominal condition"));
-  parameter Modelica.SIunits.Temperature T_a1_nominal
-    "Nominal temperature at water-side, port a1"
-    annotation (Dialog(group="Nominal condition"));
-  parameter Modelica.SIunits.Temperature T_a2_nominal
-    "Nominal temperature at water-side, port a2"
-    annotation (Dialog(group="Nominal condition"));
   parameter Boolean waterSideFlowDependent=true
     "Set to false to make water-side hA independent of mass flow rate"
     annotation (Dialog(tab="Heat transfer"));
@@ -207,12 +201,12 @@ protected
     "Nominal capacity flow rate of Medium 1";
   parameter Modelica.SIunits.ThermalConductance C2_flow_nominal(fixed=false)
     "Nominal capacity flow rate of Medium 2";
-  final parameter Medium1.ThermodynamicState sta1_default = Medium1.setState_pTX(
-     T=T_a1_nominal,
+  final parameter Medium1.ThermodynamicState sta1_default = Medium1.setState_phX(
+     h=Medium1.h_default,
      p=Medium1.p_default,
      X=Medium1.X_default[1:Medium1.nXi]) "Default state for medium 1";
-  final parameter Medium2.ThermodynamicState sta2_default = Medium2.setState_pTX(
-     T=T_a2_nominal,
+  final parameter Medium2.ThermodynamicState sta2_default = Medium2.setState_phX(
+     h=Medium2.h_default,
      p=Medium2.p_default,
      X=Medium2.X_default[1:Medium2.nXi]) "Default state for medium 2";
 
