@@ -7,8 +7,11 @@ model DryCalcs
     "UA for water side";
   input Real fraHex(min=0, max=1)
     "Fraction of heat exchanger to which UA is to be applied";
-  input Modelica.SIunits.MassFlowRate mWat_flow(min=Modelica.Constants.eps)
+  input Modelica.SIunits.MassFlowRate mWat_flow
     "Mass flow rate for water";
+  input Modelica.SIunits.MassFlowRate mWatNonZer_flow(min=Modelica.Constants.eps)
+    "Mass flow rate for water, bounded away from zero";
+
   input Modelica.SIunits.SpecificHeatCapacity cpWat
     "Specific heat capacity of water";
   input Modelica.SIunits.Temperature TWatIn
@@ -18,6 +21,9 @@ model DryCalcs
     "UA for air side";
   input Modelica.SIunits.MassFlowRate mAir_flow(min=Modelica.Constants.eps)
     "Mass flow rate of air";
+  input Modelica.SIunits.MassFlowRate mAirNonZer_flow(min=Modelica.Constants.eps)
+    "Mass flow rate for air, bounded away from zero";
+
   input Modelica.SIunits.SpecificHeatCapacity cpAir
     "Specific heat capacity of moist air at constant pressure";
   input Modelica.SIunits.Temperature TAirIn
@@ -40,28 +46,43 @@ model DryCalcs
   Modelica.SIunits.ThermalConductance CAir_flow
     "Capacitance rate of air";
   Modelica.SIunits.ThermalConductance CMin_flow
-    "minimum capacity rate";
+    "Minimum capacity rate";
   Modelica.SIunits.ThermalConductance CMax_flow
-    "maximum capacity rate";
+    "Maximum capacity rate";
   Real Z(unit="1")
     "capacitance rate ratio (C*)";
   Modelica.SIunits.ThermalConductance UA
     "Overall heat transfer coefficient";
   Real NTU
     "Dry coil number of transfer units";
+protected
+  Modelica.SIunits.ThermalConductance CWatNonZer_flow
+    "Non-zero capacitance rate of water";
+  Modelica.SIunits.ThermalConductance CAirNonZer_flow
+    "Non-zero capacitance rate of air";
+  Modelica.SIunits.ThermalConductance CMinNonZer_flow
+    "Non-zero minimum capacity rate";
+  Modelica.SIunits.ThermalConductance CMaxNonZer_flow
+    "Non-zero maximum capacity rate";
 
 equation
   CWat_flow = mWat_flow * cpWat;
   CAir_flow = mAir_flow * cpAir;
   CMin_flow = min(CWat_flow, CAir_flow);
   CMax_flow = max(CWat_flow, CAir_flow);
+
+  CWatNonZer_flow = mWatNonZer_flow * cpWat;
+  CAirNonZer_flow = mAirNonZer_flow * cpAir;
+  CMinNonZer_flow = min(CWatNonZer_flow, CAirNonZer_flow);
+  CMaxNonZer_flow = max(CWatNonZer_flow, CAirNonZer_flow);
   UA = 1/ (1 / UAAir + 1 / UAWat) "UA is for the overall coil (i.e., both sides)";
-  Z = CMin_flow / CMax_flow "Braun 1988 eq 4.1.10";
-  NTU = fraHex*UA/CMin_flow;
+  Z = CMinNonZer_flow / CMaxNonZer_flow "Braun 1988 eq 4.1.10";
+  NTU = fraHex*UA/CMinNonZer_flow;
   eff = epsilon_ntuZ(
       Z = Z,
       NTU = NTU,
       flowRegime = Integer(cfg));
+  // Use CMin to compute Q_flow
   Q_flow = eff * CMin_flow * (TWatIn - TAirIn)
       "Note: positive heat transfer is air to water";
   TAirOut = TAirIn + eff * (TWatIn - TAirIn)

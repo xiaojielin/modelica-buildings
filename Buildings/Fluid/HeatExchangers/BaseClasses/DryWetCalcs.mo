@@ -6,6 +6,13 @@ model DryWetCalcs
     "Medium 2 in the component"
     annotation (choicesAllMatching = true);
 
+  parameter Modelica.SIunits.MassFlowRate mWat_flow_nominal(min=0)
+    "Nominal mass flow rate for water"
+    annotation(Dialog(group = "Nominal condition"));
+  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal(min=0)
+    "Nominal mass flow rate for air"
+    annotation(Dialog(group = "Nominal condition"));
+
   parameter Modelica.SIunits.Temperature TWatOut_init=283.15
     "Guess value for the water outlet temperature which is an iteration variable";
 
@@ -123,6 +130,19 @@ model DryWetCalcs
         rotation=0,
         origin={150,-100})));
 
+  Modelica.SIunits.MassFlowRate mAirNonZer_flow(min=Modelica.Constants.eps)=
+    Buildings.Utilities.Math.Functions.smoothMax(
+      x1=mAir_flow,
+      x2=1E-3       *mAir_flow_nominal,
+      deltaX=0.25E-3*mAir_flow_nominal)
+    "Mass flow rate of air";
+  Modelica.SIunits.MassFlowRate mWatNonZer_flow(min=Modelica.Constants.eps)=
+    Buildings.Utilities.Math.Functions.smoothMax(
+      x1=mWat_flow,
+      x2=1E-3       *mWat_flow_nominal,
+      deltaX=0.25E-3*mWat_flow_nominal)
+    "Mass flow rate of water";
+
   Buildings.Utilities.Psychrometrics.TDewPoi_pW TDewPoi_pW(
     final p_w=Buildings.Utilities.Psychrometrics.Functions.pW_X(
       X_w=wAirIn,
@@ -141,6 +161,8 @@ model DryWetCalcs
     final TWatIn = TWatIn,
     final UAAir = UAAir,
     final mAir_flow = mAir_flow,
+    final mWatNonZer_flow = mWatNonZer_flow,
+    final mAirNonZer_flow = mAirNonZer_flow,
     final cpAir = cpAir,
     final TAirIn = TAirIn,
     final cfg = cfg);
@@ -153,6 +175,8 @@ model DryWetCalcs
     final TWatOutGuess = TWatOutWet,
     final UAAir = UAAir,
     final mAir_flow = mAir_flow,
+    final mWatNonZer_flow = mWatNonZer_flow,
+    final mAirNonZer_flow = mAirNonZer_flow,
     final cpAir = cpAir,
     final TAirIn = TAirIn,
     final pAir = pAir,
@@ -172,6 +196,8 @@ model DryWetCalcs
     final TWatIn = TWatX "if isSensible then TAirInDewPoi else TWatX",
     final UAAir = UAAir,
     final mAir_flow = mAir_flow,
+    final mWatNonZer_flow = mWatNonZer_flow,
+    final mAirNonZer_flow = mAirNonZer_flow,
     final cpAir = cpAir,
     final TAirIn = TAirIn "if isSensible then TAirInDewPoi else TAirIn",
     final cfg = cfg)
@@ -186,6 +212,8 @@ model DryWetCalcs
     final TWatOutGuess = TWatX,
     final UAAir = if isSensible then DUMMY else UAAir,
     final mAir_flow = mAir_flow,
+    final mWatNonZer_flow = mWatNonZer_flow,
+    final mAirNonZer_flow = mAirNonZer_flow,
     final cpAir = cpAir,
     final TAirIn = if isSensible then TAirInDewPoi else TAirX,
     final pAir = pAir,

@@ -95,7 +95,9 @@ protected
   Buildings.Fluid.HeatExchangers.BaseClasses.DryWetCalcs dryWetCalcs(
     redeclare final package Medium2 = Medium2,
     final TWatOut_init = TWatOut_init,
-    final cfg = flowRegime)
+    final cfg = flowRegime,
+    final mWat_flow_nominal=m1_flow_nominal,
+    final mAir_flow_nominal=m2_flow_nominal)
     "Dry/wet calculations block"
     annotation (Placement(transformation(extent={{-20,-40},{60,40}})));
   Modelica.Blocks.Sources.RealExpression cp_a1Exp(
@@ -155,18 +157,10 @@ protected
       Medium2.temperature(state_a2_inflow))
     "Temperature at port a2"
     annotation (Placement(transformation(extent={{-98,-8},{-84,4}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_a1Exp(final y=
-        Buildings.Utilities.Math.Functions.smoothMax(
-        x1=abs(port_a1.m_flow),
-        x2=m1_flow_small,
-        deltaX=m1_flow_small/4))
+  Modelica.Blocks.Sources.RealExpression m_flow_a1Exp(final y=abs(port_a1.m_flow))
     "Absolute value of mass flow rate on water side"
     annotation (Placement(transformation(extent={{-98,30},{-84,42}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_a2Exp(final y=
-        Buildings.Utilities.Math.Functions.smoothMax(
-        x1=abs(port_a2.m_flow),
-        x2=m2_flow_small,
-        deltaX=m2_flow_small/4))
+  Modelica.Blocks.Sources.RealExpression m_flow_a2Exp(final y=abs(port_a2.m_flow))
     "Absolute value of mass flow rate on air side"
     annotation (Placement(transformation(extent={{-98,-36},{-84,-24}})));
   final parameter Integer nWat=

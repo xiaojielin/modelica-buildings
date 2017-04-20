@@ -8,6 +8,8 @@ model WetCalcs "Wet effectiveness-NTU calculations"
     "Fraction of heat exchanger to which UA is to be applied";
   input Modelica.SIunits.MassFlowRate mWat_flow
     "Mass flow rate for water";
+  input Modelica.SIunits.MassFlowRate mWatNonZer_flow(min=Modelica.Constants.eps)
+    "Mass flow rate for water, bounded away from zero";
   input Modelica.SIunits.SpecificHeatCapacity cpWat
     "Specific heat capacity of water";
   input Modelica.SIunits.Temperature TWatIn
@@ -19,6 +21,8 @@ model WetCalcs "Wet effectiveness-NTU calculations"
     "UA for air side";
   input Modelica.SIunits.MassFlowRate mAir_flow
     "Mass flow rate of air";
+  input Modelica.SIunits.MassFlowRate mAirNonZer_flow(min=Modelica.Constants.eps)
+    "Mass flow rate for air, bounded away from zero";
   input Modelica.SIunits.SpecificHeatCapacity cpAir
     "Specific heat capacity of moist air at constant pressure";
   input Modelica.SIunits.Temperature TAirIn
@@ -150,23 +154,22 @@ equation
     deltax = 0.1);
   // fixme: why is there a max()? With the new model, mWat_flow > 0 always, hence
   // no division by zero is needed. Also, mAir_flow > 0
- //  mSta =  max((mAir_flow * cpEff) / (mWat_flow * cpWat), 0.01)
-  mSta =  mAir_flow * cpEff / (mWat_flow * cpWat)
+  mSta =  mAirNonZer_flow * cpEff / (mWatNonZer_flow * cpWat)
     "Braun et al 2013 eq 2.20";
   UASta = (UAAir / cpAir) / (1 + (cpEff*UAAir) / (cpAir*UAWat))
     "Mitchell 2012 eq 13.19";
-  NTUSta =  fraHex * UASta/mAir_flow
+  NTUSta =  fraHex * UASta/mAirNonZer_flow
     "Mitchell 2012 eq 13.20";
   effSta = epsilon_ntuZ(
     Z = mSta,
     NTU = NTUSta,
     flowRegime = Integer(cfg));
   QTot_flow = effSta * mAir_flow * (hAirSatSurIn - hAirIn);
-  TWatOut = TWatIn - QTot_flow / (mWat_flow * cpWat);
-  hAirOut = hAirIn + QTot_flow / mAir_flow;
+  TWatOut = TWatIn - QTot_flow / (mWatNonZer_flow * cpWat);
+  hAirOut = hAirIn + QTot_flow / mAirNonZer_flow;
   // The number of transfer units are usually of order 1. Hence, we can add a small
   // number to avoid division by zero in hSurEff
-  NTUAirSta = fraHex * UAAir / (mAir_flow * cpAir)+1E-10;
+  NTUAirSta = fraHex * UAAir / (mAirNonZer_flow * cpAir)+1E-10;
   hSurEff = hAirIn + (hAirOut - hAirIn) / (1 - exp(-NTUAirSta));
   // The effective surface temperature Ts,eff or TSurEff is the saturation
   // temperature at the value of an effective surface enthalpy, hs,eff or

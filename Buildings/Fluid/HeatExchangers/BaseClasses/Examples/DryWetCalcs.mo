@@ -31,7 +31,9 @@ model DryWetCalcs "Test the DryWetCalcs model"
     redeclare package Medium2 = Medium_A,
     TWatOut_init = TWatIn,
     cfg=
-    Buildings.Fluid.Types.HeatExchangerFlowRegime.CrossFlowCMinUnmixedCMaxMixed)
+    Buildings.Fluid.Types.HeatExchangerFlowRegime.CrossFlowCMinUnmixedCMaxMixed,
+    mWat_flow_nominal=mWat_flow,
+    mAir_flow_nominal=mAir_flow)
     annotation (Placement(transformation(extent={{-40,-60},{60,60}})));
 
   Modelica.Blocks.Sources.RealExpression UAAirExp(y=UAAir)
