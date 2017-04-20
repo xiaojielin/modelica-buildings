@@ -23,8 +23,8 @@ algorithm
     eps := (1 - Modelica.Math.exp(-NTU*(1 - a)))/(1 - a*Modelica.Math.exp(-NTU*(
       1 - a)));
   elseif (flowRegime == Integer(f.CrossFlowUnmixed)) then
-   a := NTU^(-0.22);
-    eps := 1 - Modelica.Math.exp( ( Modelica.Math.exp( - NTU * Z * a)  - 1)  / (Z * a));
+    a := 0;
+    eps := 1 - Modelica.Math.exp( ( Modelica.Math.exp( - NTU^0.78 * Z)   - 1) * NTU^0.22 / Z);
   elseif (flowRegime == Integer(f.CrossFlowCMinUnmixedCMaxMixed)) then
     // cross flow, (single pass), CMax mixed, CMin unmixed. (Coil with one row.)
     a := 0;
@@ -58,6 +58,11 @@ Buildings.Fluid.Types.HeatExchangerFlowRegime</a>.
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 19, 2016, by Michael Wetter:<br/>
+Refactored to allow <i>NTU=0</i>.<br/>
+For <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/622\">Buildings, #622</a>.
+</li>
 <li>
 September 28, 2016, by Massimo Cimmino:<br/>
 Added case for constant temperature phase change on one side of

@@ -2,18 +2,15 @@ within Buildings.Fluid.HeatExchangers.BaseClasses;
 model DryWetCalcs
   "Combines both dry and wet eff NTU calculations"
 
-  replaceable package Medium1 = Modelica.Media.Interfaces.PartialMedium
-    "Medium 1 in the component"
-    annotation (choicesAllMatching = true);
-  replaceable package Medium2 = Buildings.Media.Air
+  replaceable package Medium2 = Modelica.Media.Interfaces.PartialMedium
     "Medium 2 in the component"
     annotation (choicesAllMatching = true);
 
+  parameter Modelica.SIunits.Temperature TWatOut_init=283.15
+    "Guess value for the water outlet temperature which is an iteration variable";
+
   input Buildings.Fluid.Types.HeatExchangerFlowRegime cfg=
     Buildings.Fluid.Types.HeatExchangerFlowRegime.CounterFlow;
-  parameter Modelica.SIunits.Temperature TWatOut_init=
-    Modelica.SIunits.Conversions.from_degC(8.7333)
-    "Guess value for the water outlet temperature which is an iteration variable";
 
   // -- Water
   Modelica.Blocks.Interfaces.RealInput UAWat(
@@ -24,6 +21,7 @@ model DryWetCalcs
         iconTransformation(extent={{-160,100},{-140,120}})));
   Modelica.Blocks.Interfaces.RealInput mWat_flow(
     quantity="MassFlowRate",
+    min = 0,
     final unit="kg/s")
     "Mass flow rate for water"
     annotation (Placement(transformation(extent={{-160,80},{-140,100}}),
@@ -53,6 +51,7 @@ model DryWetCalcs
         iconTransformation(extent={{-160,-120},{-140,-100}})));
   Modelica.Blocks.Interfaces.RealInput mAir_flow(
     quantity="MassFlowRate",
+    min = 0,
     final unit="kg/s")
     "Mass flow rate for air"
     annotation (Placement(transformation(extent={{-160,-100},{-140,-80}}),
@@ -146,9 +145,8 @@ model DryWetCalcs
     final TAirIn = TAirIn,
     final cfg = cfg);
   Buildings.Fluid.HeatExchangers.BaseClasses.WetCalcs wet(
-    redeclare final package Medium1 = Medium1,
     final UAWat = UAWat,
-    final fraHex = if noEvent(TWatIn >= TAirIn or TAirInDewPoi <= TDewPoiA) then 0 else 1,
+    final fraHex = 1,
     final mWat_flow = mWat_flow,
     final cpWat = cpWat,
     final TWatIn = TWatIn,
@@ -171,18 +169,17 @@ model DryWetCalcs
     final fraHex = dryFra,
     final mWat_flow = mWat_flow,
     final cpWat = cpWat,
-    final TWatIn = if isSensible then TAirInDewPoi else TWatX,
+    final TWatIn = TWatX "if isSensible then TAirInDewPoi else TWatX",
     final UAAir = UAAir,
     final mAir_flow = mAir_flow,
     final cpAir = cpAir,
-    final TAirIn = if isSensible then TAirInDewPoi else TAirIn,
+    final TAirIn = TAirIn "if isSensible then TAirInDewPoi else TAirIn",
     final cfg = cfg)
     "Calculations for partially dry coil";
 
   Buildings.Fluid.HeatExchangers.BaseClasses.WetCalcs parWet(
-    redeclare final package Medium1 = Medium1,
     final UAWat = UAWat,
-    final fraHex= (1-dryFra),
+    final fraHex= 1-dryFra,
     final mWat_flow = mWat_flow,
     final cpWat = cpWat,
     final TWatIn = if isSensible then TAirInDewPoi else TWatIn,

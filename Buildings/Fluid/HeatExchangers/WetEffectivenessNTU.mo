@@ -93,7 +93,6 @@ protected
     "Model for convective heat transfer coefficient"
     annotation (Placement(transformation(extent={{-68,-13},{-50,9}})));
   Buildings.Fluid.HeatExchangers.BaseClasses.DryWetCalcs dryWetCalcs(
-    redeclare final package Medium1 = Medium1,
     redeclare final package Medium2 = Medium2,
     final TWatOut_init = TWatOut_init,
     final cfg = flowRegime)
@@ -107,7 +106,7 @@ protected
     else
       Medium1.specificHeatCapacityCp(state_a1_inflow))
     "Expression for cp of air"
-    annotation (Placement(transformation(extent={{-40,18},{-26,30}})));
+    annotation (Placement(transformation(extent={{-44,18},{-30,30}})));
   Modelica.Blocks.Sources.RealExpression XWat_a2Exp(
     final y = if allowFlowReversal2
     then
@@ -115,11 +114,11 @@ protected
     else
       state_a2_inflow.X[nWat])
     "Expression for XWat"
-    annotation (Placement(transformation(extent={{-40,-2},{-26,10}})));
+    annotation (Placement(transformation(extent={{-44,-2},{-30,10}})));
   Modelica.Blocks.Sources.RealExpression p_a2Exp(
     final y = port_a2.p)
     "Pressure at port a2"
-    annotation (Placement(transformation(extent={{-40,-10},{-26,2}})));
+    annotation (Placement(transformation(extent={{-44,-10},{-30,2}})));
   Modelica.Blocks.Sources.RealExpression h_a2Exp(
     final y = if allowFlowReversal2
     then
@@ -128,7 +127,7 @@ protected
     else
       Medium2.specificEnthalpy(state_a2_inflow))
     "Specific enthalpy at port a2"
-    annotation (Placement(transformation(extent={{-40,-18},{-26,-6}})));
+    annotation (Placement(transformation(extent={{-44,-18},{-30,-6}})));
   Modelica.Blocks.Sources.RealExpression cp_a2Exp(
     final y = if allowFlowReversal2
     then
@@ -137,7 +136,7 @@ protected
     else
       Medium2.specificHeatCapacityCp(state_a2_inflow))
     "Specific heat capacity at port a2"
-    annotation (Placement(transformation(extent={{-40,-30},{-26,-18}})));
+    annotation (Placement(transformation(extent={{-44,-30},{-30,-18}})));
   Modelica.Blocks.Sources.RealExpression TIn_a1Exp(
     final y = if allowFlowReversal1
     then
@@ -156,12 +155,18 @@ protected
       Medium2.temperature(state_a2_inflow))
     "Temperature at port a2"
     annotation (Placement(transformation(extent={{-98,-8},{-84,4}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_a1Exp(
-    final y = abs(port_a1.m_flow))
+  Modelica.Blocks.Sources.RealExpression m_flow_a1Exp(final y=
+        Buildings.Utilities.Math.Functions.smoothMax(
+        x1=abs(port_a1.m_flow),
+        x2=m1_flow_small,
+        deltaX=m1_flow_small/4))
     "Absolute value of mass flow rate on water side"
     annotation (Placement(transformation(extent={{-98,30},{-84,42}})));
-  Modelica.Blocks.Sources.RealExpression m_flow_a2Exp(
-    final y = abs(port_a2.m_flow))
+  Modelica.Blocks.Sources.RealExpression m_flow_a2Exp(final y=
+        Buildings.Utilities.Math.Functions.smoothMax(
+        x1=abs(port_a2.m_flow),
+        x2=m2_flow_small,
+        deltaX=m2_flow_small/4))
     "Absolute value of mass flow rate on air side"
     annotation (Placement(transformation(extent={{-98,-36},{-84,-24}})));
   final parameter Integer nWat=
@@ -311,37 +316,37 @@ equation
       points={{-80,-60},{-90,-60},{-100,-60}},
       color={0,127,255},
       thickness=1));
-  connect(hA.hA_1, dryWetCalcs.UAWat) annotation (Line(points={{-49.1,5.7},{-44,
-          5.7},{-44,36.6667},{-17.1429,36.6667}},  color={0,0,127}));
+  connect(hA.hA_1, dryWetCalcs.UAWat) annotation (Line(points={{-49.1,5.7},{-46,
+          5.7},{-46,36.6667},{-22.8571,36.6667}},  color={0,0,127}));
   connect(hA.hA_2, dryWetCalcs.UAAir) annotation (Line(points={{-49.1,-9.7},{
-          -44,-9.7},{-44,-36.6667},{-17.1429,-36.6667}},
+          -46,-9.7},{-46,-36},{-46,-36.6667},{-22.8571,-36.6667}},
                                                      color={0,0,127}));
-  connect(cp_a1Exp.y, dryWetCalcs.cpWat) annotation (Line(points={{-25.3,24},{
-          -17.1429,24},{-17.1429,23.3333}},
+  connect(cp_a1Exp.y, dryWetCalcs.cpWat) annotation (Line(points={{-29.3,24},{
+          -22.8571,24},{-22.8571,23.3333}},
                                    color={0,0,127}));
-  connect(XWat_a2Exp.y, dryWetCalcs.wAirIn) annotation (Line(points={{-25.3,4},
-          {-17.1429,4},{-17.1429,3.33333}},  color={0,0,127}));
-  connect(p_a2Exp.y, dryWetCalcs.pAir) annotation (Line(points={{-25.3,-4},{
-          -17.1429,-4},{-17.1429,-3.33333}},
+  connect(XWat_a2Exp.y, dryWetCalcs.wAirIn) annotation (Line(points={{-29.3,4},
+          {-22.8571,4},{-22.8571,3.33333}},  color={0,0,127}));
+  connect(p_a2Exp.y, dryWetCalcs.pAir) annotation (Line(points={{-29.3,-4},{
+          -22.8571,-4},{-22.8571,-3.33333}},
                                   color={0,0,127}));
-  connect(h_a2Exp.y, dryWetCalcs.hAirIn) annotation (Line(points={{-25.3,-12},{
-          -22,-12},{-22,-10},{-17.1429,-10}},
+  connect(h_a2Exp.y, dryWetCalcs.hAirIn) annotation (Line(points={{-29.3,-12},{
+          -22,-12},{-22,-10},{-22.8571,-10}},
                                     color={0,0,127}));
-  connect(cp_a2Exp.y, dryWetCalcs.cpAir) annotation (Line(points={{-25.3,-24},{
-          -17.1429,-24},{-17.1429,-23.3333}},
+  connect(cp_a2Exp.y, dryWetCalcs.cpAir) annotation (Line(points={{-29.3,-24},{
+          -22.8571,-24},{-22.8571,-23.3333}},
                                      color={0,0,127}));
   connect(TIn_a1Exp.y, hA.T_1) annotation (Line(points={{-83.3,22},{-80,22},{-80,
           1.3},{-68.9,1.3}},       color={0,0,127}));
   connect(TIn_a1Exp.y, dryWetCalcs.TWatIn) annotation (Line(points={{-83.3,22},
-          {-50,22},{-50,16.6667},{-17.1429,16.6667}}, color={0,0,127}));
+          {-50,22},{-50,16.6667},{-22.8571,16.6667}}, color={0,0,127}));
   connect(TIn_a2Exp.y, hA.T_2) annotation (Line(points={{-83.3,-2},{-76,-2},{-76,
           -5.3},{-68.9,-5.3}},   color={0,0,127}));
   connect(TIn_a2Exp.y, dryWetCalcs.TAirIn) annotation (Line(points={{-83.3,-2},
-          {-76,-2},{-76,-16.6667},{-17.1429,-16.6667}}, color={0,0,127}));
+          {-76,-2},{-76,-16.6667},{-22.8571,-16.6667}}, color={0,0,127}));
   connect(m_flow_a1Exp.y, hA.m1_flow) annotation (Line(points={{-83.3,36},{-76,36},
           {-76,5.7},{-68.9,5.7}},       color={0,0,127}));
   connect(m_flow_a1Exp.y, dryWetCalcs.mWat_flow) annotation (Line(points={{-83.3,
-          36},{-50,36},{-50,30},{-17.1429,30}},       color={0,0,127}));
+          36},{-50,36},{-50,30},{-22.8571,30}},       color={0,0,127}));
   connect(port_a1, heaCoo.port_a) annotation (Line(
       points={{-100,60},{-20,60},{60,60}},
       color={0,127,255},
@@ -350,7 +355,7 @@ equation
           -30},{-80,-9.7},{-68.9,-9.7}},
                                        color={0,0,127}));
   connect(m_flow_a2Exp.y, dryWetCalcs.mAir_flow) annotation (Line(points={{-83.3,
-          -30},{-17.1429,-30}},                      color={0,0,127}));
+          -30},{-22.8571,-30}},                      color={0,0,127}));
   connect(port_a2, heaCooHum_u.port_a) annotation (Line(
       points={{100,-60},{20,-60},{-60,-60}},
       color={0,127,255},

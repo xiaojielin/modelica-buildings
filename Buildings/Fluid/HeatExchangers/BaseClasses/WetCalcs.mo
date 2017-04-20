@@ -1,11 +1,6 @@
 within Buildings.Fluid.HeatExchangers.BaseClasses;
 model WetCalcs "Wet effectiveness-NTU calculations"
 
-  replaceable package Medium1 =
-    Modelica.Media.Interfaces.PartialMedium
-    "Water-side medium"
-    annotation (choicesAllMatching = true);
-
   // - water
   input Modelica.SIunits.ThermalConductance UAWat
     "UA for water side";
@@ -17,7 +12,7 @@ model WetCalcs "Wet effectiveness-NTU calculations"
     "Specific heat capacity of water";
   input Modelica.SIunits.Temperature TWatIn
     "Water temperature at inlet";
-  input Modelica.SIunits.Temperature TWatOutGuess
+  input Modelica.SIunits.Temperature TWatOutGuess(min=273.15)
     "A guess variable for the outlet water temperature";
   // -- air
   input Modelica.SIunits.ThermalConductance UAAir
@@ -76,8 +71,8 @@ protected
     "Effective surface temperature of the coil";
   Modelica.SIunits.AbsolutePressure pSatOut
     "Saturation pressure at air outlet conditions";
-  Real mSta
-    "ratio of product of mass flow rates and specific
+  Real mSta(min=Modelica.Constants.eps)
+    "Ratio of product of mass flow rates and specific
     heats; analogous to capacitance rate ratio Cmin/Cmax
     (Braun 2013 Ch02 eq 2.20)";
   Modelica.SIunits.MassFlowRate UASta
@@ -103,9 +98,9 @@ protected
 
 equation
     // fixme: check condition
-  if noEvent(
-      mWat_flow < 1e-4 or mAir_flow < 1e-4 or fraHex < 1e-4
-      or (abs(TAirIn - TWatIn) < 1e-4)) then
+
+  if noEvent(fraHex < 1e-10
+      or (abs(TAirIn - TWatIn) < 1e-10)) then
     QTot_flow = 0;
     QSen_flow = 0;
     TWatOut = TWatIn;
@@ -134,56 +129,71 @@ equation
     wAirOut = wAirIn;
     QLat_flow = 0;
   else
-    pSatWatOut =
-      Buildings.Utilities.Psychrometrics.Functions.saturationPressure(
-        TWatOutGuess);
-    XAirSatOut[watIdx] =
-      Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
-        pSat=pSatWatOut, p=pAir, phi=phiSat);
-    XAirSatOut[othIdx] =  1 - XAirSatOut[watIdx];
-    hAirSatSurOut = Buildings.Media.Air.specificEnthalpy_pTX(
-      p=pAir, T=TWatOutGuess, X=XAirSatOut);
-    cpEff = abs(hAirSatSurOut - hAirSatSurIn)
-      / max(abs(TWatOutGuess - TWatIn), 0.1);
-    mSta =  max((mAir_flow * cpEff) / (mWat_flow * cpWat), 0.01)
-      "Braun et al 2013 eq 2.20";
-    UASta = (UAAir / cpAir) / (1 + (cpEff*UAAir) / (cpAir*UAWat))
-      "Mitchell 2012 eq 13.19";
-    NTUSta =  fraHex * UASta/mAir_flow
-      "Mitchell 2012 eq 13.20";
-    effSta = epsilon_ntuZ(
-      Z = mSta,
-      NTU = NTUSta,
-      flowRegime = Integer(cfg));
-    QTot_flow = effSta * mAir_flow * (hAirSatSurIn - hAirIn);
-    TWatOut = TWatIn - QTot_flow / (mWat_flow * cpWat);
-    hAirOut = hAirIn + QTot_flow / mAir_flow;
-    NTUAirSta = fraHex * UAAir / (mAir_flow * cpAir);
-    hSurEff = hAirIn + (hAirOut - hAirIn) / (1 - exp(-NTUAirSta));
-    // The effective surface temperature Ts,eff or TSurEff is the saturation
-    // temperature at the value of an effective surface enthalpy, hs,eff or
-    // hSurEff, which is given by the following relation:
-    pSatEff = Buildings.Media.Air.saturationPressure(TSurEff);
-    XSurEff[watIdx] = Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
-      pSat=pSatEff,
+  pSatWatOut =
+    Buildings.Utilities.Psychrometrics.Functions.saturationPressure(
+      TWatOutGuess);
+  XAirSatOut[watIdx] =
+    Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
+      pSat=pSatWatOut,
       p=pAir,
       phi=phiSat);
-    XSurEff[othIdx] = 1 - XSurEff[watIdx];
-    hSurEff = Buildings.Media.Air.specificEnthalpy_pTX(
+  XAirSatOut[othIdx] =  1 - XAirSatOut[watIdx];
+  hAirSatSurOut = Buildings.Media.Air.specificEnthalpy_pTX(
+    p=pAir,
+    T=TWatOutGuess,
+    X=XAirSatOut);
+  // If the difference in temperatures is near zero, use a constant cpEff
+  cpEff = Buildings.Utilities.Math.Functions.spliceFunction(
+    pos = abs(hAirSatSurOut - hAirSatSurIn)/(max(0.1, abs(TWatOutGuess - TWatIn))),
+    neg = 2050,
+    x =   TWatOutGuess - TWatIn - 0.2,
+    deltax = 0.1);
+  // fixme: why is there a max()? With the new model, mWat_flow > 0 always, hence
+  // no division by zero is needed. Also, mAir_flow > 0
+ //  mSta =  max((mAir_flow * cpEff) / (mWat_flow * cpWat), 0.01)
+  mSta =  mAir_flow * cpEff / (mWat_flow * cpWat)
+    "Braun et al 2013 eq 2.20";
+  UASta = (UAAir / cpAir) / (1 + (cpEff*UAAir) / (cpAir*UAWat))
+    "Mitchell 2012 eq 13.19";
+  NTUSta =  fraHex * UASta/mAir_flow
+    "Mitchell 2012 eq 13.20";
+  effSta = epsilon_ntuZ(
+    Z = mSta,
+    NTU = NTUSta,
+    flowRegime = Integer(cfg));
+  QTot_flow = effSta * mAir_flow * (hAirSatSurIn - hAirIn);
+  TWatOut = TWatIn - QTot_flow / (mWat_flow * cpWat);
+  hAirOut = hAirIn + QTot_flow / mAir_flow;
+  // The number of transfer units are usually of order 1. Hence, we can add a small
+  // number to avoid division by zero in hSurEff
+  NTUAirSta = fraHex * UAAir / (mAir_flow * cpAir)+1E-10;
+  hSurEff = hAirIn + (hAirOut - hAirIn) / (1 - exp(-NTUAirSta));
+  // The effective surface temperature Ts,eff or TSurEff is the saturation
+  // temperature at the value of an effective surface enthalpy, hs,eff or
+  // hSurEff, which is given by the following relation.
+  // For the saturation pressure, we assume the surface is never below 2 degC.
+  // This avoids problems in computing the saturationPressure
+  pSatEff = Buildings.Utilities.Psychrometrics.Functions.saturationPressure(TSurEff);
+  XSurEff[watIdx] = Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
+    pSat=pSatEff,
+    p=pAir,
+    phi=phiSat);
+  XSurEff[othIdx] = 1 - XSurEff[watIdx];
+  hSurEff = Buildings.Media.Air.specificEnthalpy_pTX(
+    p=pAir,
+    T=TSurEff,
+    X=XSurEff);
+  TAirOut = TSurEff + (TAirIn - TSurEff) * exp(-NTUAirSta);
+  pSatOut = Buildings.Utilities.Psychrometrics.Functions.saturationPressure(TAirOut);
+  XOut[watIdx] = Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
+      pSat=pSatOut,
       p=pAir,
-      T=TSurEff,
-      X=XSurEff);
-    TAirOut = TSurEff + (TAirIn - TSurEff) * exp(-NTUAirSta);
-    pSatOut = Buildings.Media.Air.saturationPressure(TAirOut);
-    XOut[watIdx] = Buildings.Utilities.Psychrometrics.Functions.X_pSatpphi(
-        pSat=pSatOut,
-        p=pAir,
-        phi=phiSat);
-    XOut[othIdx] = 1 - XOut[watIdx];
-    wAirOut = XOut[watIdx];
-    mCon_flow = mAir_flow * (wAirIn - wAirOut);
-    QLat_flow = -Buildings.Utilities.Psychrometrics.Constants.h_fg * mCon_flow;
-    QSen_flow = QTot_flow - QLat_flow;
+      phi=phiSat);
+  XOut[othIdx] = 1 - XOut[watIdx];
+  wAirOut = XOut[watIdx];
+  mCon_flow = mAir_flow * (wAirIn - wAirOut);
+  QLat_flow = -Buildings.Utilities.Psychrometrics.Constants.h_fg * mCon_flow;
+  QSen_flow = QTot_flow - QLat_flow;
   end if;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(

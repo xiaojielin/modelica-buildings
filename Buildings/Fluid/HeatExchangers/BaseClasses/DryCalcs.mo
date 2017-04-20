@@ -7,7 +7,7 @@ model DryCalcs
     "UA for water side";
   input Real fraHex(min=0, max=1)
     "Fraction of heat exchanger to which UA is to be applied";
-  input Modelica.SIunits.MassFlowRate mWat_flow
+  input Modelica.SIunits.MassFlowRate mWat_flow(min=Modelica.Constants.eps)
     "Mass flow rate for water";
   input Modelica.SIunits.SpecificHeatCapacity cpWat
     "Specific heat capacity of water";
@@ -16,7 +16,7 @@ model DryCalcs
   // -- air
   input Modelica.SIunits.ThermalConductance UAAir
     "UA for air side";
-  input Modelica.SIunits.MassFlowRate mAir_flow
+  input Modelica.SIunits.MassFlowRate mAir_flow(min=Modelica.Constants.eps)
     "Mass flow rate of air";
   input Modelica.SIunits.SpecificHeatCapacity cpAir
     "Specific heat capacity of moist air at constant pressure";
@@ -51,40 +51,24 @@ model DryCalcs
     "Dry coil number of transfer units";
 
 equation
-    // fixme: check condition
-  if noEvent(mAir_flow < 1e-4 or mWat_flow < 1e-4
-    or fraHex < 1e-4) then
-    // No mass flow so no heat transfer
-    Q_flow = 0;
-    TWatOut = TWatIn;
-    TAirOut = TAirIn;
-    eff = 0;
-    CWat_flow = 0;
-    CAir_flow = 0;
-    CMin_flow = 0;
-    CMax_flow = 0;
-    Z = 0;
-    UA = 0;
-    NTU = 0;
-  else
-    CWat_flow = mWat_flow * cpWat;
-    CAir_flow = mAir_flow * cpAir;
-    CMin_flow = min(CWat_flow, CAir_flow);
-    CMax_flow = max(CWat_flow, CAir_flow);
-    UA = 1/ (1 / UAAir + 1 / UAWat) "UA is for the overall coil (i.e., both sides)";
-    Z = CMin_flow / CMax_flow "Braun 1988 eq 4.1.10";
-    NTU = fraHex*UA/CMin_flow;
-    eff = epsilon_ntuZ(
+  CWat_flow = mWat_flow * cpWat;
+  CAir_flow = mAir_flow * cpAir;
+  CMin_flow = min(CWat_flow, CAir_flow);
+  CMax_flow = max(CWat_flow, CAir_flow);
+  UA = 1/ (1 / UAAir + 1 / UAWat) "UA is for the overall coil (i.e., both sides)";
+  Z = CMin_flow / CMax_flow "Braun 1988 eq 4.1.10";
+  NTU = fraHex*UA/CMin_flow;
+  eff = epsilon_ntuZ(
       Z = Z,
       NTU = NTU,
       flowRegime = Integer(cfg));
-    Q_flow = eff * CMin_flow * (TWatIn - TAirIn)
+  Q_flow = eff * CMin_flow * (TWatIn - TAirIn)
       "Note: positive heat transfer is air to water";
-    TAirOut = TAirIn + eff * (TWatIn - TAirIn)
+  TAirOut = TAirIn + eff * (TWatIn - TAirIn)
       "Braun 1988 eq 4.1.8";
-    TWatOut = TWatIn + Z * (TAirIn - TAirOut)
+  TWatOut = TWatIn + Z * (TAirIn - TAirOut)
       "Braun 1988 eq 4.1.9";
-  end if;
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
