@@ -96,9 +96,15 @@ model ConservationEquation "Lumped volume with mass and energy balance"
     nominal = 1E5) "Internal energy of fluid";
 
   Modelica.SIunits.Mass m(
-    stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    then StateSelect.default else StateSelect.prefer)
+    stateSelect= StateSelect.never)
     "Mass of fluid";
+
+  Real m_normalized(
+    stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
+    then StateSelect.default else StateSelect.prefer)=
+       (m-m_start)
+    "Normalized mass to get better error control on the pressure";
+
 
   Modelica.SIunits.Mass[Medium.nXi] mXi
     "Masses of independent components in the fluid";
@@ -157,23 +163,19 @@ model ConservationEquation "Lumped volume with mass and energy balance"
 
 
 protected
-  parameter Modelica.SIunits.Mass m_nominal = fluidVolume*rho_default
-    "Mass at initial conditions"
+  parameter Modelica.SIunits.Mass m_start = fluidVolume*rho_start
+    "Initial mass of the volume, used to normalize the state";
     annotation(Evaluate=true);
 
-  Modelica.SIunits.Mass delM(stateSelect=
-    if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-       then StateSelect.default else StateSelect.prefer)
-    "Difference is mass compared to initial mass m_nominal";
-  parameter Real conMXi = 100/m_nominal
+  parameter Real conMXi = 100/m_start
     "Conversion factor to normalize the mass fraction (which usually is around 0.01, hence the factor 100)"
     annotation(Evaluate=true);
 
-  parameter Real conU = 1/(mSenFac*cp_default)/20/m_nominal
+  parameter Real conU = 1/(mSenFac*cp_default)/20/m_start
     "Conversion factor to normalize state for internal energy"
     annotation(Evaluate=true);
 
-  parameter Real conMC[Medium.nC] = (1/m_nominal) ./ C_nominal
+  parameter Real conMC[Medium.nC] = (1/m_start) ./ C_nominal
     "Conversion factor to normalize state for trace substances"
     annotation(Evaluate=true);
 
@@ -284,7 +286,6 @@ equation
   end if;
 
   // Total quantities
-  m = m_nominal + delM;
   if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
     m = fluidVolume*rho_start;
   else
@@ -349,7 +350,7 @@ equation
   if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
     0 = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
   else
-    der(delM) = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
+    der(m) = mb_flow + (if simplify_mWat_flow then 0 else mWat_flow_internal);
   end if;
 
   if substanceDynamics == Modelica.Fluid.Types.Dynamics.SteadyState then
