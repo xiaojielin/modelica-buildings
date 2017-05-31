@@ -99,10 +99,9 @@ model ConservationEquation "Lumped volume with mass and energy balance"
     stateSelect= StateSelect.never)
     "Mass of fluid";
 
-  Real m_normalized(
+  Real m_offset(
     stateSelect=if massDynamics == Modelica.Fluid.Types.Dynamics.SteadyState
-    then StateSelect.default else StateSelect.prefer)=
-       (m-m_start)
+    then StateSelect.default else StateSelect.prefer) = m-m_start
     "Normalized mass to get better error control on the pressure";
 
 
@@ -164,7 +163,7 @@ model ConservationEquation "Lumped volume with mass and energy balance"
 
 protected
   parameter Modelica.SIunits.Mass m_start = fluidVolume*rho_start
-    "Initial mass of the volume, used to normalize the state";
+    "Initial mass of the volume, used to normalize the state"
     annotation(Evaluate=true);
 
   parameter Real conMXi = 100/m_start
@@ -376,7 +375,7 @@ equation
   mXiOut=mXi;
   mOut=m;
   mCOut=mC;
-  annotation (
+    annotation(
     Documentation(info="<html>
 <p>
 Basic model for an ideally mixed fluid volume with the ability to store mass and energy.
