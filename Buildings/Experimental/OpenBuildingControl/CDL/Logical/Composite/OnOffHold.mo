@@ -3,6 +3,7 @@ block OnOffHold "The block introduces a minimal offset between the input signal 
 
   parameter Modelica.SIunits.Time holdDuration
     "Time duration during which the output cannot change";
+  parameter Real equTor = 1e-10 "Torelance used for equality evaluation";
 
   Interfaces.BooleanInput u "Boolean input signal"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
@@ -11,8 +12,6 @@ block OnOffHold "The block introduces a minimal offset between the input signal 
     annotation (Placement(transformation(extent={{100,-10},{120,10}}),
         iconTransformation(extent={{100,-10},{120,10}})));
 
-  Continuous.Constant Zero(final k=0) "Constant equal to zero"
-    annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
   Logical.Timer timer "Timer to measure time elapsed after the output signal edge"
     annotation (Placement(transformation(extent={{-60,-110},{-40,-90}})));
   Modelica.Blocks.Logical.Pre pre "Introduces infinitesimally small time delay"
@@ -35,11 +34,15 @@ block OnOffHold "The block introduces a minimal offset between the input signal 
             {-20,80}})));
   Logical.Not not2 "Not block" annotation (Placement(transformation(extent={{-10,60},
             {10,80}})));
-  LessEqual lesEqu
+  LessThreshold lesEqu(threshold = iniZer+equTor)
     annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
-  GreaterEqual greEqu
+  GreaterThreshold greEqu(threshold = iniZer-equTor)
     annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
   And and2 annotation (Placement(transformation(extent={{-20,0},{0,20}})));
+
+protected
+  parameter Real iniZer = 0;
+
 equation
 
   connect(or2.y, andBeforeTimerAndSwitch.u2) annotation (Line(points={{1,-30},{
@@ -81,14 +84,6 @@ equation
   connect(andBeforeTimerAndSwitch.u1, not2.y)
     annotation (Line(points={{18,70},{18,70},{11,70}},
                                               color={255,0,255}));
-  connect(Zero.y, greEqu.u1) annotation (Line(points={{-79,-30},{-76,-30},{-76,
-          20},{-62,20}}, color={0,0,127}));
-  connect(Zero.y, lesEqu.u1) annotation (Line(points={{-79,-30},{-76,-30},{-76,
-          -10},{-62,-10}}, color={0,0,127}));
-  connect(timer.y, greEqu.u2) annotation (Line(points={{-39,-100},{-30,-100},{
-          -30,-80},{-70,-80},{-70,12},{-62,12}}, color={0,0,127}));
-  connect(timer.y, lesEqu.u2) annotation (Line(points={{-39,-100},{-30,-100},{
-          -30,-80},{-70,-80},{-70,-18},{-62,-18}}, color={0,0,127}));
   connect(greEqu.y, and2.u1) annotation (Line(points={{-39,20},{-32,20},{-32,10},
           {-22,10}}, color={255,0,255}));
   connect(lesEqu.y, and2.u2) annotation (Line(points={{-39,-10},{-32,-10},{-32,
@@ -97,6 +92,10 @@ equation
           -14},{-30,-30},{-22,-30}}, color={255,0,255}));
   connect(logSwi.y, y) annotation (Line(points={{81,30},{88,30},{88,0},{110,0}},
         color={255,0,255}));
+  connect(timer.y, greEqu.u) annotation (Line(points={{-39,-100},{-30,-100},{-30,
+          -80},{-70,-80},{-70,20},{-62,20}}, color={0,0,127}));
+  connect(timer.y, lesEqu.u) annotation (Line(points={{-39,-100},{-30,-100},{-30,
+          -80},{-70,-80},{-70,-10},{-62,-10}}, color={0,0,127}));
   annotation (Icon(graphics={    Rectangle(
           extent={{-100,100},{100,-100}},
           fillColor={210,210,210},

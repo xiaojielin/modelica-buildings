@@ -2,6 +2,7 @@ within Buildings.Experimental.OpenBuildingControl.CDL.Logical.Composite;
 block OnHold "Block that holds a signal on for a requested time period"
 
   parameter Modelica.SIunits.Time holdDuration "Time duration of the ON hold.";
+  parameter Real equTor = 1e-10 "Torelance used for equality evaluation";
 
   Interfaces.BooleanInput u "Boolean input signal"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}}),
@@ -12,8 +13,6 @@ block OnHold "Block that holds a signal on for a requested time period"
 
   Logical.LessThreshold les1(final threshold=holdDuration) "Less than threshold"
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
-  Continuous.Constant Zero(final k=0) "Constant equals zero"
-    annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
   Logical.Timer timer "Timer to measure time elapsed after the output signal rising edge"
     annotation (Placement(transformation(extent={{20,10},{40,30}})));
   Logical.Pre pre "Introduces infinitesimally small time delay"
@@ -23,11 +22,15 @@ block OnHold "Block that holds a signal on for a requested time period"
   Logical.Or or2 "Or block" annotation (Placement(transformation(extent={{-20,60},{0,80}})));
   Logical.And and2 "And block" annotation (Placement(transformation(extent={{20,40},{40,60}})));
 
-  GreaterEqual greEqu
+  GreaterThreshold greEqu(threshold = iniZer-equTor)
     annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
-  LessEqual lesEqu
+  LessThreshold lesEqu(threshold = iniZer+equTor)
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
   And and1 annotation (Placement(transformation(extent={{0,-80},{20,-60}})));
+
+protected
+  parameter Real iniZer = 0;
+
 equation
   connect(timer.u,pre. y) annotation (Line(points={{18,20},{14,20},{14,0},{80,0},
           {80,50},{71,50}},
@@ -47,20 +50,16 @@ equation
   connect(not1.y, or2.u2) annotation (Line(points={{-39,30},{-30,30},{-30,62},{
           -22,62}},
                 color={255,0,255}));
-  connect(Zero.y, greEqu.u1)
-    annotation (Line(points={{-79,-50},{-42,-50}}, color={0,0,127}));
-  connect(Zero.y, lesEqu.u1) annotation (Line(points={{-79,-50},{-60,-50},{-60,
-          -90},{-42,-90}}, color={0,0,127}));
-  connect(timer.y, greEqu.u2) annotation (Line(points={{41,20},{60,20},{60,-12},
-          {-52,-12},{-52,-58},{-42,-58}}, color={0,0,127}));
-  connect(timer.y, lesEqu.u2) annotation (Line(points={{41,20},{60,20},{60,-12},
-          {-52,-12},{-52,-98},{-42,-98}}, color={0,0,127}));
   connect(lesEqu.y, and1.u2) annotation (Line(points={{-19,-90},{-12,-90},{-12,
           -78},{-2,-78}}, color={255,0,255}));
   connect(greEqu.y, and1.u1) annotation (Line(points={{-19,-50},{-12,-50},{-12,
           -70},{-2,-70}}, color={255,0,255}));
   connect(and1.y, not1.u) annotation (Line(points={{21,-70},{40,-70},{40,-20},{
           -72,-20},{-72,30},{-62,30}}, color={255,0,255}));
+  connect(timer.y, greEqu.u) annotation (Line(points={{41,20},{50,20},{60,20},{60,
+          -12},{-60,-12},{-60,-50},{-42,-50}}, color={0,0,127}));
+  connect(timer.y, lesEqu.u) annotation (Line(points={{41,20},{60,20},{60,-12},{
+          -60,-12},{-60,-90},{-42,-90}}, color={0,0,127}));
   annotation (Icon(graphics={    Rectangle(
           extent={{-100,100},{100,-100}},
           fillColor={210,210,210},
