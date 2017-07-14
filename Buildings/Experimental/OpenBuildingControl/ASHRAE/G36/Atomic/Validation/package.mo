@@ -2,6 +2,7 @@ within Buildings.Experimental.OpenBuildingControl.ASHRAE.G36.Atomic;
 package Validation
   extends Modelica.Icons.ExamplesPackage;
 
+
 annotation (preferredView="info", Documentation(info="<html>
 <p>
 This package contains models that validate the atmoic sequences in
@@ -20,5 +21,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-
 end Validation;
