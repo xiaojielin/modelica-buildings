@@ -25,7 +25,7 @@ block TrimRespondLogic "Block to inplement trim-respond logic"
     annotation (Placement(transformation(extent={{0,80},{20,100}})));
   CDL.Logical.Timer tim
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-  CDL.Logical.GreaterEqualThreshold delTimCon(threshold=delTim)
+  CDL.Logical.GreaterEqualThreshold delTimCon(threshold=delTim + timSte)
     "Reset logic shall be actived in delay time after device start"
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
   CDL.Continuous.Constant numIgnReqCon(k=numIgnReq)
@@ -58,15 +58,17 @@ block TrimRespondLogic "Block to inplement trim-respond logic"
     annotation (Placement(transformation(extent={{20,10},{40,30}})));
   CDL.Discrete.UnitDelay uniDel(
     samplePeriod=timSte,
-    startTime=timSte,
-    y_start=iniSet)
+    y_start=iniSet,
+    startTime=delTim + timSte)
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
   CDL.Logical.Switch swi
-    annotation (Placement(transformation(extent={{100,80},{120,60}})));
+    annotation (Placement(transformation(extent={{120,80},{140,60}})));
   CDL.Continuous.Constant maxSetCon(k=maxSet) "Maximum setpoint constant"
     annotation (Placement(transformation(extent={{20,-20},{40,0}})));
   CDL.Continuous.Min min1
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+  CDL.Discrete.Sampler sampler(samplePeriod=timSte, startTime=delTim + timSte)
+    annotation (Placement(transformation(extent={{-80,-120},{-60,-100}})));
 equation
   connect(uDevSta, tim.u)
     annotation (Line(points={{-120,70},{-82,70}}, color={255,0,255}));
@@ -74,8 +76,6 @@ equation
     annotation (Line(points={{-59,70},{-50.5,70},{-42,70}}, color={0,0,127}));
   connect(numOfReq, intToRea.u) annotation (Line(points={{-120,-70},{-90,-70},{-82,
           -70}}, color={255,127,0}));
-  connect(intToRea.y, difReqIgnReq.u2) annotation (Line(points={{-59,-70},{-52,-70},
-          {-52,-56},{-42,-56}}, color={0,0,127}));
   connect(numIgnReqCon.y, difReqIgnReq.u1) annotation (Line(points={{-59,-30},{-52,
           -30},{-52,-44},{-42,-44}}, color={0,0,127}));
   connect(difReqIgnReq.y, greThr.u)
@@ -98,31 +98,60 @@ equation
           -104},{78,-104}}, color={0,0,127}));
   connect(add2.y, netRes.u1) annotation (Line(points={{101,-110},{108,-110},{108,
           -42},{118,-42}}, color={0,0,127}));
-  connect(netRes.y, add1.u2) annotation (Line(points={{141,-50},{160,-50},{160,
-          -30},{10,-30},{10,14},{18,14}},
-                                     color={0,0,127}));
   connect(delTimCon.y, swi.u2)
-    annotation (Line(points={{-19,70},{98,70},{98,70}}, color={255,0,255}));
+    annotation (Line(points={{-19,70},{118,70}},        color={255,0,255}));
   connect(iniSetCon.y, swi.u3) annotation (Line(points={{21,90},{50,90},{80,90},
-          {80,78},{98,78}}, color={0,0,127}));
-  connect(swi.y, y) annotation (Line(points={{121,70},{180,70},{180,0},{210,0}},
+          {80,78},{118,78}},color={0,0,127}));
+  connect(swi.y, y) annotation (Line(points={{141,70},{180,70},{180,0},{210,0}},
         color={0,0,127}));
-  connect(maxSetCon.y, min1.u2) annotation (Line(points={{41,-10},{48,-10},{48,
+  connect(maxSetCon.y, min1.u2) annotation (Line(points={{41,-10},{50,-10},{50,
           -6},{58,-6}}, color={0,0,127}));
-  connect(add1.y, min1.u1) annotation (Line(points={{41,20},{41,20},{48,20},{48,
+  connect(add1.y, min1.u1) annotation (Line(points={{41,20},{41,20},{50,20},{50,
           6},{58,6}}, color={0,0,127}));
   connect(min1.y, swi.u1)
-    annotation (Line(points={{81,0},{88,0},{88,62},{98,62}}, color={0,0,127}));
+    annotation (Line(points={{81,0},{100,0},{100,62},{118,62}},
+                                                             color={0,0,127}));
   connect(uniDel.y, add1.u1)
-    annotation (Line(points={{1,20},{8,20},{8,26},{18,26}}, color={0,0,127}));
-  connect(min1.y, uniDel.u) annotation (Line(points={{81,0},{88,0},{88,40},{-40,
-          40},{-40,20},{-22,20}}, color={0,0,127}));
+    annotation (Line(points={{1,20},{10,20},{10,26},{18,26}},
+                                                            color={0,0,127}));
+  connect(min1.y, uniDel.u) annotation (Line(points={{81,0},{100,0},{100,40},{
+          -40,40},{-40,20},{-22,20}},
+                                  color={0,0,127}));
+  connect(netRes.y, add1.u2) annotation (Line(points={{141,-50},{150,-50},{160,
+          -50},{160,-30},{10,-30},{10,14},{18,14}}, color={0,0,127}));
+  connect(intToRea.y, sampler.u) annotation (Line(points={{-59,-70},{-52,-70},{
+          -52,-92},{-90,-92},{-90,-110},{-82,-110}}, color={0,0,127}));
+  connect(sampler.y, difReqIgnReq.u2) annotation (Line(points={{-59,-110},{-50,
+          -110},{-50,-56},{-42,-56}}, color={0,0,127}));
   annotation (Icon(graphics={    Rectangle(
         extent={{-100,-100},{100,100}},
         lineColor={0,0,127},
         fillColor={223,211,169},
         lineThickness=5.0,
         borderPattern=BorderPattern.Raised,
-        fillPattern=FillPattern.Solid)}),                        Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-160},{200,100}})));
+        fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-114,146},{106,108}},
+          lineColor={0,0,255},
+          textString="%name"),
+        Text(
+          extent={{-88,58},{90,-42}},
+          lineColor={192,192,192},
+          textString="Trim & Respond")}),                        Diagram(
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{200,
+            120}}), graphics={Text(
+          extent={{118,-106},{180,-154}},
+          lineColor={238,46,47},
+          fontSize=11,
+          textStyle={TextStyle.Italic},
+          textString="fixme: the start time for both sampler and
+ uniDel should ideally be the time (when 
+uDevSta become true + delTim + timSte). 
+Not the time instant (delTim + timSte)"), Text(
+          extent={{108,-138},{170,-186}},
+          lineColor={238,46,47},
+          fontSize=11,
+          textStyle={TextStyle.Italic},
+          textString="fixme: current initial time setting will couse the 
+unaccurate time range for first reset.")}));
 end TrimRespondLogic;
