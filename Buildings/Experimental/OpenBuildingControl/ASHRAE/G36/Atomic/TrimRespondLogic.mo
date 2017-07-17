@@ -14,48 +14,27 @@ block TrimRespondLogic "Block to inplement trim-respond logic"
   CDL.Interfaces.IntegerInput numOfReq "Number of requests from zones/systems"
     annotation (Placement(transformation(extent={{-140,-90},{-100,-50}})));
 
-
-
   CDL.Interfaces.RealOutput y "Setpoint that have been reset"
     annotation (Placement(transformation(extent={{200,-10},{220,10}}),
         iconTransformation(extent={{100,-10},{120,10}})));
   CDL.Interfaces.BooleanInput uDevSta "On/Off status of the associated device"
     annotation (Placement(transformation(extent={{-140,50},{-100,90}})));
-  CDL.Continuous.Constant iniSetCon(k=iniSet) "Initial setpoint"
-    annotation (Placement(transformation(extent={{0,80},{20,100}})));
+
   CDL.Logical.Timer tim
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
   CDL.Logical.GreaterEqualThreshold delTimCon(threshold=delTim + timSte)
     "Reset logic shall be actived in delay time after device start"
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
-  CDL.Continuous.Constant numIgnReqCon(k=numIgnReq)
-    "Number of ignored requests"
-    annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
-  CDL.Conversions.IntegerToReal intToRea
-    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
-  CDL.Continuous.Add difReqIgnReq(k1=-1)
-    "Difference between ignored request number and the real request number"
-    annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
   CDL.Logical.GreaterThreshold greThr
     "Check if the real requests is more than ignored requests setting"
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
-  CDL.Continuous.Constant triAmoCon(k=triAmo) "Trim amount constant"
-    annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
+
   CDL.Logical.Switch netRes "Net setpoint reset value"
     annotation (Placement(transformation(extent={{120,-60},{140,-40}})));
   CDL.Continuous.Constant resAmoCon(k=resAmo) "Respond amount constant"
     annotation (Placement(transformation(extent={{-40,-120},{-20,-100}})));
   CDL.Continuous.Product pro
     annotation (Placement(transformation(extent={{0,-120},{20,-100}})));
-  CDL.Continuous.Constant maxResCon(k=maxRes)
-    "Maximum response per time interval"
-    annotation (Placement(transformation(extent={{-40,-150},{-20,-130}})));
-  CDL.Continuous.Min min
-    annotation (Placement(transformation(extent={{40,-120},{60,-100}})));
-  CDL.Continuous.Add add2
-    annotation (Placement(transformation(extent={{80,-120},{100,-100}})));
-  CDL.Continuous.Add add1
-    annotation (Placement(transformation(extent={{20,10},{40,30}})));
   CDL.Discrete.UnitDelay uniDel(
     samplePeriod=timSte,
     y_start=iniSet,
@@ -63,12 +42,36 @@ block TrimRespondLogic "Block to inplement trim-respond logic"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
   CDL.Logical.Switch swi
     annotation (Placement(transformation(extent={{120,80},{140,60}})));
-  CDL.Continuous.Constant maxSetCon(k=maxSet) "Maximum setpoint constant"
-    annotation (Placement(transformation(extent={{20,-20},{40,0}})));
-  CDL.Continuous.Min min1
-    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   CDL.Discrete.Sampler sampler(samplePeriod=timSte, startTime=delTim + timSte)
     annotation (Placement(transformation(extent={{-80,-120},{-60,-100}})));
+
+protected
+  CDL.Continuous.Constant iniSetCon(k=iniSet) "Initial setpoint"
+    annotation (Placement(transformation(extent={{0,80},{20,100}})));
+  CDL.Continuous.Constant numIgnReqCon(k=numIgnReq)
+    "Number of ignored requests"
+    annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
+  CDL.Continuous.Constant triAmoCon(k=triAmo) "Trim amount constant"
+    annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
+  CDL.Continuous.Constant maxResCon(k=maxRes)
+    "Maximum response per time interval"
+    annotation (Placement(transformation(extent={{-40,-150},{-20,-130}})));
+  CDL.Continuous.Constant maxSetCon(k=maxSet) "Maximum setpoint constant"
+    annotation (Placement(transformation(extent={{20,-20},{40,0}})));
+  CDL.Conversions.IntegerToReal intToRea
+    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
+  CDL.Continuous.Add difReqIgnReq(k1=-1)
+    "Difference between ignored request number and the real request number"
+    annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
+  CDL.Continuous.Add add1
+    annotation (Placement(transformation(extent={{20,10},{40,30}})));
+  CDL.Continuous.Add add2
+    annotation (Placement(transformation(extent={{80,-120},{100,-100}})));
+  CDL.Continuous.Min min
+    annotation (Placement(transformation(extent={{40,-120},{60,-100}})));
+  CDL.Continuous.Min min1
+    annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+
 equation
   connect(uDevSta, tim.u)
     annotation (Line(points={{-120,70},{-82,70}}, color={255,0,255}));
